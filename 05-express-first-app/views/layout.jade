@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    ul
+      li Elemento de lista
+      li Elemento de lista 2
+
+    input(type="text").class-name#idInput
+    - var condition = true
+
+    if condition
+      p Valor de la variable es verdadero
+
+    - var algunArreglo = [1,2,3]
+    each value in algunArreglo
+        p= value
+      //-
+        Para que la funcion de elemnto
+    block content
+    ul
+      li Elementos del Footer
+

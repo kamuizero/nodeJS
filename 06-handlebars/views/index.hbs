@@ -1,0 +1,11 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{ title }}</p>
+{{# if condition }}
+    La condicion se cumplio
+{{ else }}
+    No se cumplio la condicion
+{{/if}}
+
+{{# each arreglo as |val key|}}
+    <p> El valor en la posicion {{ key }} : {{ val }}
+{{/each}}
