@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
 
 });
 
-
 router.post('/submit', function(req, res, next) {
     //Chequear la validez
     req.check('email', 'Direccion de correo invalida').isEmail(); //Este nombre tiene que ser el mismo que el NOMBRE del elemento que queremos validar
