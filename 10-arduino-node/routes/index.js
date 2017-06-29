@@ -15,12 +15,21 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/arduino', function (req, res, next) {
+
+    //Obtenemos los posibles valores enviados por el arduino
     var data = req.query.data,
+        pos = req.query.pos,
         log = req.query.log;
 
-    arduinoC.procesarMensaje({data: data});
+    console.log('Valor de data es: ' + data + ' y el valor de log es: ' + log + " y el valor de pos es: " + pos);
 
-    console.log('Valor de data es: ' + data + ' y el valor de log es: ' + log);
+    arduinoC.procesarMensaje(
+        {data: data,
+            posicion: pos,
+            log: log,
+            cliente: req.ip
+        });
+
     res.render('index');
 });
 

@@ -15,17 +15,22 @@ var eventoArduinoSchema = new Schema ({
 var EventoArduino = mongoose.model('EventoArduino', eventoArduinoSchema);
 
 function registrarLog(evento) {
+    evento.tipo = "log";
+    evento.tiempo = moment().format('MMMM Do YYYY, h:mm:ss a');
+    console.log(evento);
+    var data = new EventoArduino(evento);
+    data.save();
+    console.log("Registro insertado en MongoDB");
+    return true;
+}
 
-    evento[tipo] = "log";
-    evento[tiempo] = moment().format('MMMM Do YYYY, h:mm:ss a');
+function registrarPosicion(evento) {
+    evento.tipo = "posicion";
+    evento.tiempo = moment().format('MMMM Do YYYY, h:mm:ss a');
 
     var data = new EventoArduino(evento);
     data.save();
     return true;
-}
-
-function registrarPosicion() {
-
 }
 
 function buscarEventos() {
@@ -41,34 +46,116 @@ module.exports = {
         console.log("EN PROCESAR ARDUINO: " + params.data);
         console.log(moment().format());
 
-        /*
-        var pos = params.posicion;
+        var pos = params.posicion,
+            log = params.log,
+            data = params.data;
+
         var evento = {
             cliente: params.cliente,
-            evento: params.evento
+            tipo: '',
+            tiempo: ''
         };
 
-        var data = new EventoArduino(evento);
+        if (log) {
+            switch (log) {
+                case "1" : //Registro inicial
+                    if (data == 1) {
+                        evento.evento = "Iniciando Configuracion";
+                        console.log(evento.evento);
+                        registrarLog(evento);
 
+                        evento.evento = "Dispositivo responde";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    else if (data == 0) {
+                        evento.evento = "Iniciando Configuracion";
+                        console.log(evento.evento);
+                        registrarLog(evento);
 
-        switch (pos) {
-            case 0: //IZQUIERDA
-                //fwrite($fp,  $fechaHora." - IZQUIERDA\n");
-                break;
-            case 2: //DERECHA
-                //fwrite($fp,  $fechaHora." - DERECHA\n");
-                break;
-            case 5: //FRENTE
-                //fwrite($fp,  $fechaHora." - FRENTE\n");
-                break;
-            case 6: //ATRAS
-                //fwrite($fp,  $fechaHora." - ATRAS\n");
-                break;
-            default:
-                //fwrite($fp,  $fechaHora." -ERROR- \n");
-                break;
-        }*/
-
+                        evento.evento = "Dispositivo no responde";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    break;
+                case 2 : //Configurar modo
+                    if (data == 1) {
+                        evento.evento = "Configurado modo de operacion a Station + SoftAP";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    else if (data == 0) {
+                        evento.evento = "Error configurando el modo de operacion";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    break;
+                case 3 : //Conexion
+                    if (data == 1) {
+                        evento.evento = "Conexion Iniciada";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    else if (data == 0) {
+                        evento.evento = "Error de conexion";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    else if (data == 2) {
+                        evento.evento = "El dispositivo ya esta conectado a la red";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    break;
+                case 4 : //MUX
+                    if (data == 1) {
+                        evento.evento = "MUX Deshabilitado";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    else if (data == 0) {
+                        evento.evento = "Error de deshabilitacion del MUX";
+                        console.log(evento.evento);
+                        registrarLog(evento);
+                    }
+                    break;
+                case 5 : //Fin de configuracion
+                    evento.evento = "Configuracion finalizada";
+                    console.log(evento.evento);
+                    registrarLog(evento);
+                    break;
+                default:
+                    console.log("Default - Data recibida no se pudo procesar, valor de  log es: " + log);
+                    break;
+            }
+        }
+        else if (pos) { //Acelerometro
+            switch (pos) {
+                case 0: //IZQUIERDA
+                    evento.evento = "izquierda";
+                    console.log(evento.evento);
+                    registrarPosicion(evento);
+                    break;
+                case 2: //DERECHA
+                    evento.evento = "derecha";
+                    console.log(evento.evento);
+                    registrarPosicion(evento);
+                    break;
+                case 5: //FRENTE
+                    evento.evento = "frente";
+                    console.log(evento.evento);
+                    registrarPosicion(evento);
+                    break;
+                case 6: //ATRAS
+                    evento.evento = "atras";
+                    console.log(evento.evento);
+                    registrarPosicion(evento);
+                    break;
+                default:
+                    console.log("Error al leer la data recibida");
+                    break;
+            }
+        }
     },
 
     leerEventos: function () {
