@@ -10,7 +10,7 @@ var index = require('./routes/index');
 
 var app = express();
 
-// view engine setup
+// Configuracion del Templating Engine - Handlebars
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/'}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs'); //Registramos hbs como motor de vistas arriba

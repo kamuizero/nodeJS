@@ -3,6 +3,7 @@ var router = express.Router();
 var mongo = require('mongodb').MongoClient;
 var objectID = require('mongodb').ObjectID;
 var assert = require('assert'); //Se usa para hacer pruebas, validar cosas
+var arduinoC = require('../public/javascripts/arduinocontroller');
 
 const PAGE_TITLE = "MONGO DB";
 
@@ -11,6 +12,16 @@ var url = 'mongodb://localhost:27017/test'; //test es la base  de datos que util
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: PAGE_TITLE});
+});
+
+router.get('/arduino', function (req, res, next) {
+    var data = req.query.data,
+        log = req.query.log;
+
+    arduinoC.procesarMensaje({data: data});
+
+    console.log('Valor de data es: ' + data + ' y el valor de log es: ' + log);
+    res.render('index');
 });
 
 router.get('/get-data', function(req, res, next) {
