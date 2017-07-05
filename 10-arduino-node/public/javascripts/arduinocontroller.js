@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 mongoose.connect(url);
 var Schema = mongoose.Schema;
 
+
+
 //Definir el esquema de la transaccion en la base de datos, esto ayuda a la validacion
 var eventoArduinoSchema = new Schema ({
     tiempo: {type: String, required: true},
@@ -17,10 +19,9 @@ var EventoArduino = mongoose.model('EventoArduino', eventoArduinoSchema);
 function registrarLog(evento) {
     evento.tipo = "log";
     evento.tiempo = moment().format('MMMM Do YYYY, h:mm:ss a');
-    console.log(evento);
     var data = new EventoArduino(evento);
     data.save();
-    console.log("Registro insertado en MongoDB");
+    console.log("Log insertado en MongoDB");
     return true;
 }
 
@@ -30,6 +31,7 @@ function registrarPosicion(evento) {
 
     var data = new EventoArduino(evento);
     data.save();
+    console.log("Posicion insertada en MongoDB");
     return true;
 }
 
@@ -42,9 +44,6 @@ function buscarEventos() {
 
 module.exports = {
     procesarMensaje: function (params) {
-
-        console.log("EN PROCESAR ARDUINO: " + params.data);
-        console.log(moment().format());
 
         var pos = params.posicion,
             log = params.log,
@@ -78,7 +77,7 @@ module.exports = {
                         registrarLog(evento);
                     }
                     break;
-                case 2 : //Configurar modo
+                case "2" : //Configurar modo
                     if (data == 1) {
                         evento.evento = "Configurado modo de operacion a Station + SoftAP";
                         console.log(evento.evento);
@@ -90,7 +89,7 @@ module.exports = {
                         registrarLog(evento);
                     }
                     break;
-                case 3 : //Conexion
+                case "3" : //Conexion
                     if (data == 1) {
                         evento.evento = "Conexion Iniciada";
                         console.log(evento.evento);
@@ -107,7 +106,7 @@ module.exports = {
                         registrarLog(evento);
                     }
                     break;
-                case 4 : //MUX
+                case "4" : //MUX
                     if (data == 1) {
                         evento.evento = "MUX Deshabilitado";
                         console.log(evento.evento);
@@ -119,7 +118,7 @@ module.exports = {
                         registrarLog(evento);
                     }
                     break;
-                case 5 : //Fin de configuracion
+                case "5" : //Fin de configuracion
                     evento.evento = "Configuracion finalizada";
                     console.log(evento.evento);
                     registrarLog(evento);
@@ -131,22 +130,22 @@ module.exports = {
         }
         else if (pos) { //Acelerometro
             switch (pos) {
-                case 0: //IZQUIERDA
+                case "0": //IZQUIERDA
                     evento.evento = "izquierda";
                     console.log(evento.evento);
                     registrarPosicion(evento);
                     break;
-                case 2: //DERECHA
+                case "2": //DERECHA
                     evento.evento = "derecha";
                     console.log(evento.evento);
                     registrarPosicion(evento);
                     break;
-                case 5: //FRENTE
+                case "5": //FRENTE
                     evento.evento = "frente";
                     console.log(evento.evento);
                     registrarPosicion(evento);
                     break;
-                case 6: //ATRAS
+                case "6": //ATRAS
                     evento.evento = "atras";
                     console.log(evento.evento);
                     registrarPosicion(evento);
