@@ -1,18 +1,37 @@
-var express = require('express');
-var router = express.Router();
-var mongo = require('mongodb').MongoClient;
-var objectID = require('mongodb').ObjectID;
-var assert = require('assert'); //Se usa para hacer pruebas, validar cosas
-var arduinoC = require('../public/javascripts/arduinocontroller');
-var operadorSPQ = require('../public/javascripts/operadorsparql');
+const express = require('express');
+const router = express.Router();
+const mongo = require('mongodb').MongoClient;
+const objectID = require('mongodb').ObjectID;
+const assert = require('assert'); //Se usa para hacer pruebas, validar cosas
+const arduinoC = require('../public/javascripts/arduinocontroller');
+const operadorSPQ = require('../public/javascripts/operadorsparql');
 
-const PAGE_TITLE = "MONGO DB";
+const PAGE_TITLE = "外国人フレンドリークリニック集 - Foreigner Friendly Clinic Directory";
 
 var url = 'mongodb://localhost:27017/test'; //test es la base  de datos que utilizaremos
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: PAGE_TITLE});
+
+    let grafo = 'http://lod.mdg/';
+
+    let query = "PREFIX lkd:<http://linkdata.org/property/rdf1s4853i> " +
+        "select * from <" + grafo + "> " +
+        "where { " +
+        "?clinica ?atributo ?valor. " +
+        "FILTER(!strstarts(str(?clinica), str(lkd:)) " +
+        "&& str(?clinica) != <>) " +
+        "}" +
+        " ORDER BY DESC (?clinica)";
+
+    let clinicas = operadorSPQ.querySPARQL(query);
+
+    let parametros = {
+        title: PAGE_TITLE,
+        clinicas: encodeURIComponent(JSON.stringify(clinicas))
+    };
+
+    res.render('index', parametros);
 });
 
 router.get('/arduino', function (req, res, next) {

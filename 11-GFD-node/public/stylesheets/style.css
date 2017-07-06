@@ -1,11 +1,124 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@font-face{
+  /*font-family: "Roboto-Medium";*/
+  /*src: url("/resources/gliphicons/Roboto/Roboto-Medium.ttf"),*/
+  /*url("../resources/gliphicons/Roboto/Roboto-Medium.ttf");*/
+
+  /*Para incluir mas fuentes, referenciar esta pagina:
+  *
+  * http://www.freejapanesefont.com/tag/commercial-use-ok/page/5/
+  *
+  */
+
+  font-family: "honoka-ant-maru";
+  src: url("/stylesheets/fonts/font_1_ant-maru.ttf") format("truetype");
+}
+
+* {
+  box-sizing: border-box;
+  font-family: honoka-ant-maru !important;
+}
+
+html, body {
+  /*height: 100%;*/
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  /*background-color: #333;*/
+  background-color: whitesmoke;
+  color: darkcyan;
+  font-weight: normal;
+  vertical-align: baseline;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 a {
   color: #00B7FF;
 }
+
+.center {
+  margin: auto;
+  width: 50%;
+  /*border: 3px solid black;*/
+  padding: 10px;
+}
+
+.main {
+  padding: 16px;
+  margin-top: 72px;
+}
+
+/*
+ * Estilo del menu
+ */
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /*background-color: #333;*/
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-shadow: 0px 2px 10px #5E5E5E;
+}
+
+li {
+  float: left;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all  0.3s ease;
+}
+
+li.tablinks:hover {
+  background-color: cadetblue;
+}
+
+li.tablogo:hover {
+  -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+  -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+  /*filter: brightness(1.0) grayscale(0) opacity(0.8);*/
+  filter: grayscale(0.2) blur(1px) saturate(1.5);
+}
+
+li a {
+  display: block;
+  color: white;
+  /*padding: 16px;*/
+  padding: 16px;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/*
+ * Fin de estilo de menu
+ */
+
+/*
+ * Mapa
+ */
+
+#map {
+  height: 600px;
+  width: 100%;
+  padding: 0;
+}
+
+/*
+ * Fin de Mapa
+ */
 
 section {
   float: left;
