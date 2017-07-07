@@ -3,7 +3,6 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 mongoose.connect(url);
 var Schema = mongoose.Schema;
-const {Client} = require('virtuoso-sparql-client');
 
 //Definir el esquema de la transaccion en la base de datos, esto ayuda a la validacion
 var eventoArduinoSchema = new Schema ({
@@ -159,26 +158,6 @@ module.exports = {
     leerEventos: function () {
         console.log("Leer elementos");
         return buscarEventos();
-    },
-
-    querySparql: function (res) {
-    //Procedimiento que solamente lee los datos del endpoint
-    let virtuosoLocal = new Client("http://127.0.0.1:8890/sparql");
-    virtuosoLocal.setDefaultFormat('application/json');
-
-    var consulta = "select * from <http://lod.mdg/> " +
-        "where {?clinica ?atributo ?valor. " +
-        " FILTER(!strstarts(str(?clinica), str(\"http://linkdata.org/property/\")) && str(?clinica) != <>) } " +
-        " ORDER BY DESC(?clinica) LIMIT 200";
-
-    virtuosoLocal.query(consulta)
-        .then((results)=> {
-            console.log(results);
-            res.render('index', {data: results});
-        })
-        .catch( res.render('error') );
-
-    console.log('Finalizo SPARQL');
     }
 
 };

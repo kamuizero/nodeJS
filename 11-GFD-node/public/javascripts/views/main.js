@@ -1,11 +1,26 @@
 const posicionInicial = {lat: 35.1547072, lng: 136.9613086}; //Aichi
+var allMarkersData =[];
+var activeInfoWindow;
+var activeMarker;
+var map;var icons = {
+    health: {
+        icon: '/images/gfd/icons/health_icon.png'
+    },
+    clinic: {
+        icon: '/images/gfd/icons/clinic_icon.png'
+    },
+    hospital: {
+        icon: '/images/gfd/icons/hospital_icon.png'
+    }
+};
+
 
 initMap();
 
 function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 6,
+        zoom: 7,
         //center: uluru,
         center: posicionInicial,
         mapTypeControl: false,
@@ -23,18 +38,20 @@ function initMap() {
         map.setCenter(center);
     });
 
-    var prueba = localStorage.getItem('lista');
-    console.log(prueba);
-
-    crearArreglo(prueba);
-
-    //llamarClinicasVirtuoso();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET','http://localhost:8001/clinics', false);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send();
+    var prueba = JSON.parse(xhr.responseText);
+    console.log('Llamar a crear arreglo');
+    cargarClinicasAlMapa(crearArreglo(prueba));
 }
 
 /*
  * Crear arreglo de clinicas, 're' es el objeto  JSON con la informacion
  */
 function crearArreglo(re) {
+    console.log('crear arreglo');
     var clinicas = [];
     var lat, long;
 
@@ -62,9 +79,17 @@ function crearArreglo(re) {
     return clinicas;
 }
 
-//================================================
-//Funcion que crea el marcador y lo agrega al mapa
-//================================================
+function cargarClinicasAlMapa(clinicas) {
+    //Finalizo carga del RDF, mostrarlas como marcadores en el mapa
+    for (var k = 0, clinicaP; clinicaP = clinicas[k]; k++) {
+        addMarkerInfoWindow(clinicaP,map);
+    }
+}
+
+/*================================================
+ *Funcion que crea el marcador y lo agrega al mapa
+ *================================================
+ */
 
 function addMarkerInfoWindow(feature, mapa) {
 
@@ -163,7 +188,9 @@ function addMarkerInfoWindow(feature, mapa) {
     allMarkersData.push(marker);
     return(marker);
 }
-
+/*
+ * ===============================================
+ */
 function crearContenido(marker) {
 
     var ingles, chino, coreano, espanol, otro;
@@ -176,7 +203,7 @@ function crearContenido(marker) {
 
     if ( ((ingles.doctor!='0 %') && (ingles.doctor!='No ratings yet'))  ||
         ( (ingles.staff!='No ratings yet') && (ingles.staff!='0 %')) ) {
-        ingles = '&nbsp; <img src="resources/img/lang/united-states.png" class="resize"/> ';
+        ingles = '&nbsp; <img src="/images/gfd/lang/united-states.png" class="resize"/> ';
     }
     else {
         ingles = '';
@@ -184,7 +211,7 @@ function crearContenido(marker) {
 
     if ( ((chino.doctor!='0 %') && (chino.doctor!='No ratings yet'))  ||
         ( (chino.staff!='No ratings yet') && (chino.staff!='0 %')) ) {
-        chino = '&nbsp; <img src="resources/img/lang/china.png" class="resize"/> ';
+        chino = '&nbsp; <img src="/images/gfd/lang/china.png" class="resize"/> ';
     }
     else {
         chino = '';
@@ -192,7 +219,7 @@ function crearContenido(marker) {
 
     if ( ((coreano.doctor!='0 %') && (coreano.doctor!='No ratings yet'))  ||
         ( (coreano.staff!='No ratings yet') && (coreano.staff!='0 %')) ) {
-        coreano = '&nbsp; <img src="resources/img/lang/south-korea.png" class="resize"/> ';
+        coreano = '&nbsp; <img src="/images/gfd/lang/south-korea.png" class="resize"/> ';
     }
     else {
         coreano = '';
@@ -200,7 +227,7 @@ function crearContenido(marker) {
 
     if ( ((espanol.doctor!='0 %') && (espanol.doctor!='No ratings yet'))  ||
         ( (espanol.staff!='No ratings yet') && (espanol.staff!='0 %')) ) {
-        espanol = '&nbsp; <img src="resources/img/lang/spain.png" class="resize"/> ';
+        espanol = '&nbsp; <img src="/images/gfd/lang/spain.png" class="resize"/> ';
     }
     else {
         espanol = '';
@@ -208,7 +235,7 @@ function crearContenido(marker) {
 
     if ( ((otro.doctor!='0 %') && (otro.doctor!='No ratings yet'))  ||
         ( (otro.staff!='No ratings yet') && (otro.staff!='0 %')) ) {
-        otro = '&nbsp; <img src="resources/img/lang/hospital.png" class="resize"/> ';
+        otro = '&nbsp; <img src="/images/gfd/lang/hospital.png" class="resize"/> ';
     }
     else {
         otro = '';
@@ -219,7 +246,7 @@ function crearContenido(marker) {
     var html = '<p style="align-content: center"><strong>' + marker.title + '</strong></p><br>' + marker.description +
         '<br><br>' +
         'Languages: ' +
-        '<div> <img src="resources/img/lang/japan.png" class="resize"/> ' + ingles + chino + coreano + espanol + otro +
+        '<div> <img src="/images/gfd/lang/japan.png" class="resize"/> ' + ingles + chino + coreano + espanol + otro +
         '</div>' +
         '<p><a href="#" title="Click to add clinic review" onclick="reviewClinic(); return false;">'+
         'Review clinic</a></p>';
@@ -295,4 +322,64 @@ function evaluarIdioma(idioma, marker) {
         doctor : (porcentajeTotalDoctor == -1)?'No ratings yet':porcentajeTotalDoctor + ' %',
         staff : (porcentajeTotalStaff == -1)?'No ratings yet':porcentajeTotalStaff + ' %'
     }
+}
+
+function reviewClinic() {
+    let c = markerASimpleBase(activeMarker);
+    localStorage.setItem('clinica',JSON.stringify(c));
+    location.assign('review');
+}
+
+function markerASimpleBase(marker) {
+    var ret = {
+        id: marker.id,
+        description: marker.description,
+        position: marker.position,
+        title: marker.title,
+        type: marker.type,
+        icon: marker.icon,
+
+        doctorSpeaksEnglishTrue: marker.doctorSpeaksEnglishTrue, //Doctor habla ingles - Votos positivos
+        doctorSpeaksEnglishFalse: marker.doctorSpeaksEnglishFalse, //Doctor habla ingles - Votos negativos
+
+        doctorSpeaksChineseTrue: marker.doctorSpeaksChineseTrue, //Doctor habla Chino - Votos positivos
+        doctorSpeaksChineseFalse: marker.doctorSpeaksChineseFalse, //Doctor habla Chino - Votos negativos
+
+        doctorSpeaksKoreanTrue: marker.doctorSpeaksKoreanTrue, //Doctor habla Coreano - Votos positivos
+        doctorSpeaksKoreanFalse: marker.doctorSpeaksKoreanFalse, //Doctor habla Coreano - Votos negativos
+
+        doctorSpeaksSpanishTrue: marker.doctorSpeaksSpanishTrue, //Doctor habla Espanol - Votos positivos
+        doctorSpeaksSpanishFalse: marker.doctorSpeaksSpanishFalse, //Doctor habla Espanol - Votos negativos
+
+        doctorSpeaksOtherTrue: marker.doctorSpeaksOtherTrue, //Doctor habla Otro idioma - Votos positivos
+        doctorSpeaksOtherFalse: marker.doctorSpeaksOtherFalse, //Doctor habla Otro idioma - Votos negativos
+
+        /* Personal */
+
+        staffSpeaksEnglishTrue: marker.staffSpeaksEnglishTrue, //Personal habla ingles - Votos positivos
+        staffSpeaksEnglishFalse: marker.staffSpeaksEnglishFalse, //Personal habla ingles - Votos negativos
+
+        staffSpeaksChineseTrue: marker.staffSpeaksChineseTrue, //Personal habla Chino - Votos positivos
+        staffSpeaksChineseFalse: marker.staffSpeaksChineseFalse, //Personal habla Chino - Votos negativos
+
+        staffSpeaksKoreanTrue: marker.staffSpeaksKoreanTrue, //Personal habla Coreano - Votos positivos
+        staffSpeaksKoreanFalse: marker.staffSpeaksKoreanFalse, //Personal habla Coreano - Votos negativos
+
+        staffSpeaksSpanishTrue: marker.staffSpeaksSpanishTrue, //Personal habla Espanol - Votos positivos
+        staffSpeaksSpanishFalse: marker.staffSpeaksSpanishFalse, //Personal habla Espanol - Votos negativos
+
+        staffSpeaksOtherTrue: marker.staffSpeaksOtherTrue, //Personal habla Otro idioma - Votos positivos
+        staffSpeaksOtherFalse: marker.staffSpeaksOtherFalse, //Personal habla Otro idioma - Votos negativos
+
+        /* Evaluacion */
+
+        FriendlyL1 : marker.FriendlyL1, //1 Estrella
+        FriendlyL2 : marker.FriendlyL2, //2 Estrellas
+        FriendlyL3 : marker.FriendlyL3, //3 Estrellas
+
+        ForeignLanguageTreatmentExplanationTrue: marker.ForeignLanguageTreatmentExplanationTrue, //Ofrecen posologia o indicaciones en idioma extranjero - Votos positivos
+        ForeignLanguageTreatmentExplanationFalse: marker.ForeignLanguageTreatmentExplanationFalse
+    };
+
+    return ret;
 }

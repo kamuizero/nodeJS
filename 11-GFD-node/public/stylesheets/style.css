@@ -1,8 +1,4 @@
 @font-face{
-  /*font-family: "Roboto-Medium";*/
-  /*src: url("/resources/gliphicons/Roboto/Roboto-Medium.ttf"),*/
-  /*url("../resources/gliphicons/Roboto/Roboto-Medium.ttf");*/
-
   /*Para incluir mas fuentes, referenciar esta pagina:
   *
   * http://www.freejapanesefont.com/tag/commercial-use-ok/page/5/
@@ -111,13 +107,47 @@ li a {
  */
 
 #map {
-  height: 600px;
+  height: 800px;
   width: 100%;
   padding: 0;
 }
 
 /*
  * Fin de Mapa
+ */
+
+img.resize{
+  width: 16px; /* you can use % */
+  height: auto;
+}
+
+.imagenBanderaReview {
+  float: left;
+  width: 59px; /* you can use % */
+  height: auto;
+  margin-right: 10px;
+}
+
+.labelIdioma {
+  font-weight: bold;
+}
+
+.thumbUp {
+  width: 18px; /* you can use % */
+  height: auto;
+}
+
+.thumbDown {
+  width: 18px; /* you can use % */
+  height: auto;
+  -moz-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+}
+
+/*
+ * Fin de estilos GFD
  */
 
 section {
@@ -141,22 +171,6 @@ section:last-of-type {
 section h3 {
   border-bottom: 1px solid black;
   padding-bottom: 5px;
-}
-
-.insert {
-  background: #2ecc71;
-}
-
-.get {
-  background: #ecf0f1;
-}
-
-.update {
-  background: #3498db;
-}
-
-.delete {
-  background: #e74c3c;
 }
 
 .input label {

@@ -1,0 +1,163 @@
+<h1 class="center" style="text-align: center">{{title}}</h1>
+<!-- <p>Welcome to {{ title }}</p> -->
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFt6MSFMohozFOuPIVrs_1hZFwyqpyPTo"></script>
+<script src="javascripts/views/main.js" defer="defer"></script>
+
+<br>
+
+<div id="clinicInfo" class="row">
+    <div id="rI" class="col-2">
+    </div>
+
+    <div id="mapaClinica" class="col-4 mapaReview"></div>
+
+    <div class="col-4">
+        <div id="datosBasicos">
+            <div id="divNombreClinica" class="nombreClinica"></div>
+            <div id="divDireccionClinica" class="direccionClinica"></div>
+        </div>
+        <br>
+
+        <strong>先生とスタッフの言語 - Languages Spoken by Staff and Doctor</strong>
+        <br>
+        <br>
+        <div id="divInglesDoc" class="infoIdioma">
+            <img id="banderaIngles" src="/images/gfd/lang/united-states.png" class="imagenBanderaReview"/>
+            <span class="labelIdioma">英語 - ENGLISH</span>
+            <br>
+            <span>Doctor: </span><span id="inglesDoc"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpInglesDoc" type="radio" name="votoInglesDoc" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpInglesDoc"></label>
+                <input id="thumbDownInglesDoc" type="radio" name="votoInglesDoc" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownInglesDoc"></label>
+            </span>
+            <br>
+            <span>Staff: </span><span id="inglesStaff" ></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpInglesStaff" type="radio" name="votoInglesStaff" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpInglesStaff"></label>
+                <input id="thumbDownInglesStaff" type="radio" name="votoInglesStaff" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownInglesStaff"></label>
+            </span>
+        </div>
+        <br>
+        <div id="divChinoDoc" class="infoIdioma">
+            <img id="banderaChino" src="/images/gfd/lang/china.png" class="imagenBanderaReview"/>
+            <span class="labelIdioma">中国語 - CHINESE</span>
+            <br>
+            <span>Doctor: </span><span id="chinoDoc"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpChinoDoc" type="radio" name="votoChinoDoc" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpChinoDoc"></label>
+                <input id="thumbDownChinoDoc" type="radio" name="votoChinoDoc" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownChinoDoc"></label>
+            </span>
+            <br>
+            <span>Staff: </span><span id="chinoStaff"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpChinoStaff" type="radio" name="votoChinoStaff" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpChinoStaff"></label>
+                <input id="thumbDownChinoStaff" type="radio" name="votoChinoStaff" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownChinoStaff"></label>
+            </span>
+        </div>
+        <br>
+        <div id="divCoreanoDoc" class="infoIdioma">
+            <img id="banderaCoreano" src="/images/gfd/lang/south-korea.png" class="imagenBanderaReview"/>
+            <span class="labelIdioma">韓国語 - KOREAN</span>
+            <br>
+            <span>Doctor: </span><span id="coreanoDoc"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpCoreanoDoc" type="radio" name="votoCoreanoDoc" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpCoreanoDoc"></label>
+                <input id="thumbDownCoreanoDoc" type="radio" name="votoCoreanoDoc" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownCoreanoDoc"></label>
+            </span>
+            <br>
+            <span>Staff: </span><span  id="coreanoStaff"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpCoreanoStaff" type="radio" name="votoCoreanoStaff" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpCoreanoStaff"></label>
+                <input id="thumbDownCoreanoStaff" type="radio" name="votoCoreanoStaff" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownCoreanoStaff"></label>
+            </span>
+        </div>
+        <br>
+        <div id="divEspanolDoc" class="infoIdioma">
+            <img id="banderaEspanol" src="/images/gfd/lang/spain.png" class="imagenBanderaReview"/>
+            <span class="labelIdioma">スペイン語 - SPANISH</span>
+            <br>
+            <span>Doctor: </span><span id="espanolDoc"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpEspanolDoc" type="radio" name="votoEspanolDoc" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpEspanolDoc"></label>
+                <input id="thumbDownEspanolDoc" type="radio" name="votoEspanolDoc" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownEspanolDoc"></label>
+            </span>
+            <br>
+            <span>Staff: </span><span  id="espanolStaff"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpEspanolStaff" type="radio" name="votoEspanolStaff" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpEspanolStaff"></label>
+                <input id="thumbDownEspanolStaff" type="radio" name="votoEspanolStaff" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownEspanolStaff"></label>
+            </span>
+        </div>
+        <br>
+        <div id="divOtroIdiomaDoc" class="infoIdioma">
+            <img id="banderaOtro" src="/images/gfd/lang/other.png" class="imagenBanderaReview"/>
+            <span class="labelIdioma">その他 - OTHER</span>
+            <br>
+            <span>Doctor: </span><span id="otroDoc"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpOtroDoc" type="radio" name="votoOtroDoc" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpOtroDoc"></label>
+                <input id="thumbDownOtroDoc" type="radio" name="votoOtroDoc" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownOtroDoc"></label>
+            </span>
+            <br>
+            <span>Staff: </span><span  id="otroStaff"></span> &nbsp;
+            <span class="cc-selector">
+                <input id="thumbUpOtroStaff" type="radio" name="votoOtroStaff" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpOtroStaff"></label>
+                <input id="thumbDownOtroStaff" type="radio" name="votoOtroStaff" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownOtroStaff"></label>
+            </span>
+        </div>
+        <br>
+
+        <strong>先生の態度レベル - Doctor's Foreigner Friendliness level</strong>
+        <br>
+        <br>
+        <div class="starbox"> </div> <br> &nbsp; <a id="divRatingActitud" class="infoFriendliness" ></a>
+        <br>
+        <br>
+
+        <strong>Prescription, Indications and dosage explanation in foreign language?</strong>
+        <br>
+        <br>
+        <span id="divRatingExplicacion" class="infoIndicacion"></span> &nbsp;
+        <span class="cc-selector">
+                <input id="thumbUpIndicacion" type="radio" name="votoIndicacion" value="up" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tUp" for="thumbUpIndicacion"></label>
+                <input id="thumbDownIndicacion" type="radio" name="votoIndicacion" value="down" onclick="clickThumb(this);" />
+                <label class="pulgar-cc tDown"for="thumbDownIndicacion"></label>
+            </span>
+
+        <br>
+        <br>
+        <div id="botones">
+            <a id="botonBack" class="btn" onclick="history.back(-1);">Back</a>
+            &nbsp;
+            <a id="botonReview" class="btn" onclick="reviewClinic();" style="display: none">Rate Clinic</a>
+            &nbsp;
+            <a id="botonClear" class="btn" onclick="clearInput();" style="display: none">Clear</a>
+        </div>
+
+    </div>
+
+    <div id="rd" class="col-2"></div>
+
+</div>
