@@ -8,9 +8,28 @@
     <title>{{ title }}</title>
     <script src="https://use.fontawesome.com/d3a00859ad.js"></script>
     <script src="javascripts/vendors/jquery/jquery-3.2.1.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFt6MSFMohozFOuPIVrs_1hZFwyqpyPTo"></script>
     <link rel="stylesheet" href="stylesheets/neostyle.css">
+    <script src="javascripts/scriptLayout.js"></script>
 </head>
 <body>
-    <script src="javascripts/script.js"></script>
+    <header>
+        <nav class="top-nav scrolling">
+            <div class="left">
+                <!-- <button class="btn btn-section"><span class="fa fa-bars"></span> SECTION</button> -->
+                 <button class="btn btn-section"><img src="/images/gfd/hospital.png"> </button>
+            </div>
+            <ul>
+                <li><a href="#">CREATE</a></li>
+                <li><a href="#">DATA SOURCE</a></li>
+                <li><a href="#">ABOUT</a></li>
+            </ul>
+            <div class="right">
+                <button class="btn btn-user">LOGIN</button>
+                <button class="btn btn-user">SIGN UP</button>
+            </div>
+        </nav>
+    </header>
+    {{{ body }}}
 </body>
 </html>

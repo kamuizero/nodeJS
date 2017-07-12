@@ -15,7 +15,7 @@ var app = express();
 
 // Configuracion del Templating Engine - Handlebars
 // app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/'}));
-app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout2', layoutsDir: __dirname + '/views/layouts/'}));
+app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/'}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs'); //Registramos hbs como motor de vistas arriba
 

@@ -248,7 +248,7 @@ function crearContenido(marker) {
         'Languages: ' +
         '<div> <img src="/images/gfd/lang/japan.png" class="resize"/> ' + ingles + chino + coreano + espanol + otro +
         '</div>' +
-        '<p><a href="#" title="Click to add clinic review" onclick="reviewClinic(); return false;">'+
+        '<p><a style="color: #000;" href="#" title="Click to add clinic review" onclick="reviewClinic(); return false;">'+
         'Review clinic</a></p>';
     return html;
 }

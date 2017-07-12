@@ -5,9 +5,11 @@ var ratingUsuarioInglesDoc, ratingUsuarioChinoDoc, ratingUsuarioEspanolDoc, rati
     ratingUsuarioInglesStaff, ratingUsuarioChinoStaff, ratingUsuarioEspanolStaff, ratingUsuarioCoreanoStaff, ratingUsuarioOtroStaff,
     ratingUsuarioFL, ratingUsuarioIndicaciones;
 
-hideButton("botonReview");
-hideButton("botonClear");
-obtenerClinica();
+$(document).ready(function () {
+    hideButton("botonReview");
+    hideButton("botonClear");
+    obtenerClinica();
+});
 
 function obtenerClinica() {
 
@@ -23,9 +25,9 @@ function obtenerClinica() {
         initMap(feature); //Mostramos el mapa
 
         //$("#divNombreClinica").text(feature.title);
-        document.getElementById('divNombreClinica').text(feature.title);
+        $("#divNombreClinica").text(feature.title);
 
-        document.getElementById('divDireccionClinica').text(feature.description);
+        $("#divDireccionClinica").text(feature.description);
 
         /* Load languages ratings */
 
@@ -33,47 +35,50 @@ function obtenerClinica() {
 
         totalDoc = langLevel.positivoDoctor + langLevel.negativoDoctor;
         totalStaff = langLevel.positivoStaff + langLevel.negativoStaff;
-        document.getElementById('inglesDoc').text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
-        document.getElementById('inglesStaff').text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
+        $("#inglesDoc").text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
+        $("#inglesStaff").text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
 
         langLevel = evaluarIdioma('chino');
 
         totalDoc = langLevel.positivoDoctor + langLevel.negativoDoctor;
         totalStaff = langLevel.positivoStaff + langLevel.negativoStaff;
-        document.getElementById('chinoDoc').text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
-        document.getElementById('chinoStaff').text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
+        $("#chinoDoc").text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
+        $("#chinoStaff").text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
 
         langLevel = evaluarIdioma('coreano');
 
         totalDoc = langLevel.positivoDoctor + langLevel.negativoDoctor;
         totalStaff = langLevel.positivoStaff + langLevel.negativoStaff;
-        document.getElementById('coreanoDoc').text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
-        document.getElementById('coreanoStaff').text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
+        $("#coreanoDoc").text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
+        $("#coreanoStaff").text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
 
         langLevel = evaluarIdioma('espanol');
 
         totalDoc = langLevel.positivoDoctor + langLevel.negativoDoctor;
         totalStaff = langLevel.positivoStaff + langLevel.negativoStaff;
-        document.getElementById('espanolDoc').text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
-        document.getElementById('espanolStaff').text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
+        $("#espanolDoc").text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
+        $("#espanolStaff").text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
 
         langLevel = evaluarIdioma('otro');
 
         totalDoc = langLevel.positivoDoctor + langLevel.negativoDoctor;
         totalStaff = langLevel.positivoStaff + langLevel.negativoStaff;
-        document.getElementById('otroDoc').text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
-        document.getElementById('otroStaff').text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
+        $("#otroDoc").text(langLevel.doctor + (totalDoc>0?' (' + totalDoc + ' votes)':''));
+        $("#otroStaff").text(langLevel.staff + (totalStaff>0?' (' + totalStaff + ' votes)':''));
 
         /* Load Doctor's friendliness level */
 
         ratingOriginal = evaluarRating();
 
         if (ratingOriginal > 0) {
-            document.getElementById('divRatingActitud').text('(' + (ratingOriginal*100).toFixed(0) + "% positive)");
+            $("#divRatingActitud").text('(' + (ratingOriginal*100).toFixed(0) + "% positive)");
         }
         else {
-            document.getElementById('divRatingActitud').text("(No ratings yet)");
+            $("#divRatingActitud").text("(No ratings yet)");
         }
+
+        console.log('Starbox');
+        console.log(ratingOriginal);
 
         $('.starbox').starbox({
             stars: 3, //Total de estrellas a mostrar
@@ -83,7 +88,9 @@ function obtenerClinica() {
             autoUpdateAverage: true,
             ghosting: true
         }).bind('starbox-value-changed', function(event, value) {
-            var voto = value.toFixed(2);
+            let voto = value.toFixed(2);
+            console.log('CLICK ESTRELLAS voto ' + voto + ' VALUE es ' + value);
+
             switch (voto) {
                 case ("0.33") :
                     voto = 1;
@@ -102,6 +109,8 @@ function obtenerClinica() {
             ratingUsuarioFL = voto;
             verificarVisibilidad();
         });
+
+        console.log('Starbox cargado');
 
         /* Prescription */
 
@@ -237,6 +246,221 @@ function hideButton(boton){
     document.getElementById(boton).style.display = "none";
 }
 
+function evaluarIdioma(idioma) {
+    var porcentajeTotalDoctor, porcentajeTotalStaff,
+        positivoDoctor, negativoDoctor,
+        positivoStaff, negativoStaff;
+
+    var round = Math.round;
+
+    switch (idioma) {
+        case 'ingles' : {
+            positivoDoctor = round(marker.doctorSpeaksEnglishTrue);
+            negativoDoctor = round(marker.doctorSpeaksEnglishFalse);
+            positivoStaff = round(marker.staffSpeaksEnglishTrue);
+            negativoStaff = round(marker.staffSpeaksEnglishFalse);
+            break;
+        }
+        case 'chino' : {
+            positivoDoctor = round(marker.doctorSpeaksChineseTrue);
+            negativoDoctor = round(marker.doctorSpeaksChineseFalse);
+            positivoStaff = round(marker.staffSpeaksChineseTrue);
+            negativoStaff = round(marker.staffSpeaksChineseFalse);
+            break;
+        }
+        case 'coreano' : {
+            positivoDoctor = round(marker.doctorSpeaksKoreanTrue);
+            negativoDoctor = round(marker.doctorSpeaksKoreanFalse);
+            positivoStaff = round(marker.staffSpeaksKoreanTrue);
+            negativoStaff = round(marker.staffSpeaksKoreanFalse);
+            break;
+        }
+        case 'espanol' : {
+            positivoDoctor = round(marker.doctorSpeaksSpanishTrue);
+            negativoDoctor = round(marker.doctorSpeaksSpanishFalse);
+            positivoStaff = round(marker.staffSpeaksSpanishTrue);
+            negativoStaff = round(marker.staffSpeaksSpanishFalse);
+            break;
+        }
+        case 'otro' : {
+            positivoDoctor = round(marker.doctorSpeaksOtherTrue);
+            negativoDoctor = round(marker.doctorSpeaksOtherFalse);
+            positivoStaff = round(marker.staffSpeaksOtherTrue);
+            negativoStaff = round(marker.staffSpeaksOtherFalse);
+            break;
+        }
+        default : {
+            return {doctor : 0, staff: 0};
+        }
+    }
+
+    //TODO: Esto es una solucion temporal
+
+    //Calculamos el porcentaje de cada uno
+    if (positivoDoctor > 0 || negativoDoctor > 0) {
+        porcentajeTotalDoctor = (positivoDoctor/(positivoDoctor+negativoDoctor))*100;
+    }
+    else {
+        porcentajeTotalDoctor = -1;
+    }
+
+    if (positivoStaff > 0 || negativoStaff > 0) {
+        porcentajeTotalStaff = (positivoStaff/(positivoStaff+negativoStaff))*100;
+    }
+    else {
+        porcentajeTotalStaff = -1;
+    }
+
+    return {
+        positivoDoctor : positivoDoctor,
+        negativoDoctor : negativoDoctor,
+        doctor : (porcentajeTotalDoctor == -1)?'No ratings yet':porcentajeTotalDoctor.toFixed(2) + ' %',
+        positivoStaff : positivoStaff,
+        negativoStaff : negativoStaff,
+        staff : (porcentajeTotalStaff == -1)?'No ratings yet':porcentajeTotalStaff.toFixed(2) + ' %'
+    }
+}
+
+function evaluarPrescripcion() {
+    var round = Math.round;
+
+    var positiveVotes = round(marker.ForeignLanguageTreatmentExplanationTrue);
+    var negativeVotes = round(marker.ForeignLanguageTreatmentExplanationFalse);
+
+    if (positiveVotes > 0 || negativeVotes > 0) {
+        return ( (positiveVotes/(positiveVotes+negativeVotes))*100 ).toFixed(2);
+    }
+    else {
+        return -1;
+    }
+}
+
+function evaluarRating() {
+    //Promedio ponderado
+    let round = Math.round;
+    let L1, L2, L3;
+
+    L1 = round(marker.FriendlyL1);
+    L2 = round(marker.FriendlyL2);
+    L3 = round(marker.FriendlyL3);
+
+    let suma = L1+L2+L3;
+
+    return (suma==0)?0:((((3*L3) + (2*L2) + (L1))/(suma))/3);
+}
+
+function clickThumb(element) {
+
+    var nombre = element.getAttribute('name'); //Obtenemos el idioma a donde le dio click
+    var voto = element.getAttribute('value');
+
+    switch (nombre) {
+        case 'votoInglesDoc' :
+            if ((ratingUsuarioInglesDoc!=null) && (ratingUsuarioInglesDoc == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioInglesDoc = null;
+            }
+            else {
+                ratingUsuarioInglesDoc = voto;
+            }
+            break;
+        case 'votoInglesStaff' :
+            if ((ratingUsuarioInglesStaff!=null) && (ratingUsuarioInglesStaff == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioInglesStaff = null;
+            }
+            else {
+                ratingUsuarioInglesStaff = voto;
+            }
+            break;
+        case 'votoChinoDoc' :
+            if ((ratingUsuarioChinoDoc!=null) && (ratingUsuarioChinoDoc == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioChinoDoc = null;
+            }
+            else {
+                ratingUsuarioChinoDoc  = voto;
+            }
+            break;
+        case 'votoChinoStaff' :
+            if ((ratingUsuarioChinoStaff !=null) && (ratingUsuarioChinoStaff == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioChinoStaff = null;
+            }
+            else {
+                ratingUsuarioChinoStaff = voto;
+            }
+            break;
+        case 'votoCoreanoDoc' :
+            if ((ratingUsuarioCoreanoDoc !=null) && (ratingUsuarioCoreanoDoc == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioCoreanoDoc = null;
+            }
+            else {
+                ratingUsuarioCoreanoDoc = voto;
+            }
+            break;
+        case 'votoCoreanoStaff' :
+            if ((ratingUsuarioCoreanoStaff !=null) && (ratingUsuarioCoreanoStaff == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioCoreanoStaff = null;
+            }
+            else {
+                ratingUsuarioCoreanoStaff = voto;
+            }
+            break;
+        case 'votoEspanolDoc' :
+            if ((ratingUsuarioEspanolDoc !=null) && (ratingUsuarioEspanolDoc == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioEspanolDoc = null;
+            }
+            else {
+                ratingUsuarioEspanolDoc = voto;
+            }
+            break;
+        case 'votoEspanolStaff' :
+            if ((ratingUsuarioEspanolStaff !=null) && (ratingUsuarioEspanolStaff == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioEspanolStaff = null;
+            }
+            else {
+                ratingUsuarioEspanolStaff = voto;
+            }
+            break;
+        case 'votoOtroDoc' :
+            if ((ratingUsuarioOtroDoc !=null) && (ratingUsuarioOtroDoc == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioOtroDoc = null;
+            }
+            else {
+                ratingUsuarioOtroDoc = voto;
+            }
+            break;
+        case 'votoOtroStaff' :
+            if ((ratingUsuarioOtroStaff !=null) && (ratingUsuarioOtroStaff == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioOtroStaff = null;
+            }
+            else {
+                ratingUsuarioOtroStaff = voto;
+            }
+            break;
+        case 'votoIndicacion' :
+            if ((ratingUsuarioIndicaciones !=null) && (ratingUsuarioIndicaciones == voto)) { //Ya esta clickeado
+                element.checked = false;
+                ratingUsuarioIndicaciones = null;
+            }
+            else {
+                ratingUsuarioIndicaciones = voto;
+            }
+            break;
+        default: break;
+    }
+
+    //Verificamos si hacer visible el boton o no
+    verificarVisibilidad();
+}
+
 function clearAllThumbs() {
 
     document.getElementsByName("votoIndicacion").checked = false;
@@ -258,6 +482,69 @@ function clearAllThumbs() {
 
 }
 
+function resetStars() {
+
+    var starB = $('.starbox');
+
+    ratingUsuarioFL = null;
+    starB.starbox('destroy', null);
+
+    //Regeneramos el rating
+    starB.starbox({
+        stars: 3, //Total de estrellas a mostrar
+        buttons: 3, //Se coloca 3 para que los ratings sean 3
+        average: ratingOriginal, //Valor inicial
+        changeable: 'once',
+        autoUpdateAverage: true,
+        ghosting: true
+    });
+
+}
+
+function resetThumbs() {
+
+    ratingUsuarioInglesDoc = ratingUsuarioChinoDoc = ratingUsuarioEspanolDoc = ratingUsuarioCoreanoDoc = ratingUsuarioOtroDoc =
+        ratingUsuarioInglesStaff = ratingUsuarioChinoStaff = ratingUsuarioEspanolStaff = ratingUsuarioCoreanoStaff = ratingUsuarioOtroStaff =
+            ratingUsuarioIndicaciones = null;
+
+    //Idiomas
+    document.getElementsByName("votoInglesDoc")[0].checked = false;
+    document.getElementsByName("votoInglesDoc")[1].checked = false;
+
+    document.getElementsByName("votoInglesStaff")[0].checked = false;
+    document.getElementsByName("votoInglesStaff")[1].checked = false;
+
+    document.getElementsByName("votoChinoDoc")[0].checked = false;
+    document.getElementsByName("votoChinoDoc")[1].checked = false;
+
+    document.getElementsByName("votoChinoStaff")[0].checked = false;
+    document.getElementsByName("votoChinoStaff")[1].checked = false;
+
+    document.getElementsByName("votoCoreanoDoc")[0].checked = false;
+    document.getElementsByName("votoCoreanoDoc")[1].checked = false;
+
+    document.getElementsByName("votoCoreanoStaff")[0].checked = false;
+    document.getElementsByName("votoCoreanoStaff")[1].checked = false;
+
+    document.getElementsByName("votoEspanolDoc")[0].checked = false;
+    document.getElementsByName("votoEspanolDoc")[1].checked = false;
+
+    document.getElementsByName("votoEspanolStaff")[0].checked = false;
+    document.getElementsByName("votoEspanolStaff")[1].checked = false;
+
+    document.getElementsByName("votoOtroDoc")[0].checked = false;
+    document.getElementsByName("votoOtroDoc")[1].checked = false;
+
+    document.getElementsByName("votoOtroStaff")[0].checked = false;
+    document.getElementsByName("votoOtroStaff")[1].checked = false;
+
+    //Indicaciones
+
+    document.getElementsByName("votoIndicacion")[0].checked = false;
+    document.getElementsByName("votoIndicacion")[1].checked = false;
+
+}
+
 function verificarVisibilidad() {
     if (ratingUsuarioInglesDoc==null && ratingUsuarioChinoDoc==null && ratingUsuarioEspanolDoc==null &&
         ratingUsuarioCoreanoDoc==null && ratingUsuarioOtroDoc==null && ratingUsuarioInglesStaff==null &&
@@ -271,4 +558,10 @@ function verificarVisibilidad() {
         showButton('botonReview');
         showButton('botonClear');
     }
+}
+
+function clearInput() {
+    resetThumbs(); //Resetear los pulgares
+    resetStars(); //Resetear las estrellas
+    verificarVisibilidad();
 }
