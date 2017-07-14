@@ -349,6 +349,313 @@ function evaluarRating() {
     return (suma==0)?0:((((3*L3) + (2*L2) + (L1))/(suma))/3);
 }
 
+function rateClinic() {
+    $("#Loading").show();
+
+    //Debemos tomar todos los cambios nuevos
+    var datos = [];
+    var voto;
+    //Primero evaluacion de idiomas
+    ratingUsuarioInglesDoc = (ratingUsuarioInglesDoc=='up')?1:(ratingUsuarioInglesDoc=='down'?-1:0);
+
+    switch (ratingUsuarioInglesDoc) {
+        case 1:
+            voto = {
+                atributo: "doctorSpeaksEnglishTrue",
+                valor: Math.round(marker.doctorSpeaksEnglishTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "doctorSpeaksEnglishFalse",
+                valor: Math.round(marker.doctorSpeaksEnglishFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioInglesStaff = (ratingUsuarioInglesStaff=='up')?1:(ratingUsuarioInglesStaff=='down'?-1:0);
+
+    switch (ratingUsuarioInglesStaff) {
+        case 1:
+            voto = {
+                atributo: "staffSpeaksEnglishTrue",
+                valor: Math.round(marker.staffSpeaksEnglishTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "staffSpeaksEnglishFalse",
+                valor: Math.round(marker.staffSpeaksEnglishFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioChinoDoc = (ratingUsuarioChinoDoc=='up')?1:(ratingUsuarioChinoDoc=='down'?-1:0);
+
+    switch (ratingUsuarioChinoDoc) {
+        case 1:
+            voto = {
+                atributo: "doctorSpeaksChineseTrue",
+                valor: Math.round(marker.doctorSpeaksChineseTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "doctorSpeaksChineseFalse",
+                valor: Math.round(marker.doctorSpeaksChineseFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioChinoStaff = (ratingUsuarioChinoStaff=='up')?1:(ratingUsuarioChinoStaff=='down'?-1:0);
+
+    switch (ratingUsuarioChinoStaff) {
+        case 1:
+            voto = {
+                atributo: "staffSpeaksChineseTrue",
+                valor: Math.round(marker.staffSpeaksChineseTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "staffSpeaksChineseFalse",
+                valor: Math.round(marker.staffSpeaksChineseFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioCoreanoDoc = (ratingUsuarioCoreanoDoc=='up')?1:(ratingUsuarioCoreanoDoc=='down'?-1:0);
+
+    switch (ratingUsuarioCoreanoDoc) {
+        case 1:
+            voto = {
+                atributo: "doctorSpeaksKoreanTrue",
+                valor: Math.round(marker.doctorSpeaksKoreanTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "doctorSpeaksKoreanFalse",
+                valor: Math.round(marker.doctorSpeaksKoreanFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioCoreanoStaff = (ratingUsuarioCoreanoStaff=='up')?1:(ratingUsuarioCoreanoStaff=='down'?-1:0);
+
+    switch (ratingUsuarioCoreanoStaff) {
+        case 1:
+            voto = {
+                atributo: "staffSpeaksKoreanTrue",
+                valor: Math.round(marker.staffSpeaksKoreanTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "staffSpeaksKoreanFalse",
+                valor: Math.round(marker.staffSpeaksKoreanFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioEspanolDoc = (ratingUsuarioEspanolDoc=='up')?1:(ratingUsuarioEspanolDoc=='down'?-1:0);
+
+    switch (ratingUsuarioEspanolDoc) {
+        case 1:
+            voto = {
+                atributo: "doctorSpeaksSpanishTrue",
+                valor: Math.round(marker.doctorSpeaksSpanishTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "doctorSpeaksSpanishFalse",
+                valor: Math.round(marker.doctorSpeaksSpanishFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioEspanolStaff = (ratingUsuarioEspanolStaff=='up')?1:(ratingUsuarioEspanolStaff=='down'?-1:0);
+
+    switch (ratingUsuarioEspanolStaff) {
+        case 1:
+            voto = {
+                atributo: "staffSpeaksSpanishTrue",
+                valor: Math.round(marker.staffSpeaksSpanishTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "staffSpeaksSpanishFalse",
+                valor: Math.round(marker.staffSpeaksSpanishFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioOtroDoc = (ratingUsuarioOtroDoc=='up')?1:(ratingUsuarioOtroDoc=='down'?-1:0);
+
+    switch (ratingUsuarioOtroDoc) {
+        case 1:
+            voto = {
+                atributo: "doctorSpeaksOtherTrue",
+                valor: Math.round(marker.doctorSpeaksOtherTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "doctorSpeaksOtherFalse",
+                valor: Math.round(marker.doctorSpeaksOtherFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    ratingUsuarioOtroStaff = (ratingUsuarioOtroStaff=='up')?1:(ratingUsuarioOtroStaff=='down'?-1:0);
+
+    switch (ratingUsuarioOtroStaff) {
+        case 1:
+            voto = {
+                atributo: "staffSpeaksOtherTrue",
+                valor: Math.round(marker.staffSpeaksOtherTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "staffSpeaksOtherFalse",
+                valor: Math.round(marker.staffSpeaksOtherFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    //Nivel de amistosidad del doctor
+    if (ratingUsuarioFL==null) { //No hizo click en la estrella
+        ratingUsuarioFL = 0;
+    }
+    else {
+        switch (ratingUsuarioFL) {
+            case 1:
+                voto = {
+                    atributo: "FriendlyL1",
+                    valor: Math.round(marker.FriendlyL1) + 1
+                };
+                datos.push(voto);
+                break;
+            case 2:
+                voto = {
+                    atributo: "FriendlyL2",
+                    valor: Math.round(marker.FriendlyL2) + 1
+                };
+                datos.push(voto);
+                break;
+            case 3:
+                voto = {
+                    atributo: "FriendlyL3",
+                    valor: Math.round(marker.FriendlyL3) + 1
+                };
+                datos.push(voto);
+                break;
+            default:
+                break;
+        }
+    }
+
+    //Voto de indicaciones
+    ratingUsuarioIndicaciones = (ratingUsuarioIndicaciones=='up')?1:(ratingUsuarioIndicaciones=='down'?-1:0);
+
+    switch (ratingUsuarioIndicaciones) {
+        case 1:
+            voto = {
+                atributo: "ForeignLanguageTreatmentExplanationTrue",
+                valor: Math.round(marker.ForeignLanguageTreatmentExplanationTrue) + 1
+            };
+            datos.push(voto);
+            break;
+        case -1:
+            voto = {
+                atributo: "ForeignLanguageTreatmentExplanationFalse",
+                valor: Math.round(marker.ForeignLanguageTreatmentExplanationFalse) + 1
+            };
+            datos.push(voto);
+            break;
+        default: //Nada
+            break;
+    }
+
+    /*var voto = {
+     id : marker.id,
+     inglesDoc : ratingUsuarioInglesDoc,
+     inglesStaff : ratingUsuarioInglesStaff,
+     chinoDoc : ratingUsuarioChinoDoc,
+     chinoStaff : ratingUsuarioChinoStaff,
+     coreanoDoc : ratingUsuarioCoreanoDoc,
+     coreanoStaff : ratingUsuarioCoreanoStaff,
+     espanolDoc : ratingUsuarioEspanolDoc,
+     espanolStaff : ratingUsuarioEspanolStaff,
+     otroDoc : ratingUsuarioOtroDoc,
+     otroStaff : ratingUsuarioOtroStaff,
+     nivelDoc : ratingUsuarioFL,
+     indicaciones : ratingUsuarioIndicaciones
+     }*/
+
+    //Enviar los datos a procesar - La respuesta se procesa en otro metodo
+    var parametros = {
+        datos : datos
+    };
+
+    console.log(datos);
+    console.log(JSON.stringify(parametros));
+    console.log('ID de la clinica a actualizar es: ' + marker.id);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT','http://localhost:8001/clinics/' + marker.id, false);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(JSON.stringify(parametros));
+
+    let resultado = JSON.parse(xhr.responseText);
+    console.log('Finalizo la llamada a la funcion de acutalizacion - ' + resultado);
+
+    //Aqui finalizo la cuestion
+}
+
 function clickThumb(element) {
 
     var nombre = element.getAttribute('name'); //Obtenemos el idioma a donde le dio click

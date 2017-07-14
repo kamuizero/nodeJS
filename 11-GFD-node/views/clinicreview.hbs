@@ -1,11 +1,15 @@
 <script src="/javascripts/vendors/jquery/jquery-3.2.1.min.js"></script>
 <script src="/javascripts/vendors/jstarbox/jstarbox.js"></script>
 <script src="/javascripts/views/clinicreview.js" defer="defer"></script>
+<link rel="stylesheet" href="/stylesheets/jstarbox.css">
+
+<div id="Loading">
+    <div id="loading-img"></div>
+</div>
 
 <div class="clinicInfo row">
 
     <h1 class="center" style="text-align: center">{{title}}</h1>
-    <br>
     <br>
 
     <div id="rI" class="col-2">
@@ -152,7 +156,7 @@
         <div id="botones">
             <a id="botonBack" class="btn" onclick="history.back(-1);">Back</a>
             &nbsp;
-            <a id="botonReview" class="btn" onclick="reviewClinic();" style="display: none">Rate Clinic</a>
+            <a id="botonReview" class="btn" onclick="rateClinic();" style="display: none">Rate Clinic</a>
             &nbsp;
             <a id="botonClear" class="btn" onclick="clearInput();" style="display: none">Clear</a>
         </div>

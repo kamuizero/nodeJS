@@ -15,6 +15,7 @@ router.get('/:id',function(req, res, next){
 
 router.put('/:id',function(req, res, next){
     //Actualizar clinica
+    res.send(ClinicsController.updateClinic(req,res));
 });
 
 module.exports = router; //Necesario para habilitar las rutas

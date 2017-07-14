@@ -14,7 +14,6 @@ var map;var icons = {
     }
 };
 
-
 initMap();
 
 function initMap() {

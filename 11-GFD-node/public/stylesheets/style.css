@@ -159,7 +159,6 @@ html, body {
 }
 
 
-
 /*.top-nav li a {
   display: block;
   color: white;
@@ -223,7 +222,7 @@ img.resize{
 /* BASE PARA CLINIC REVIEW */
 
 #mapaClinica {
-  height: 725px;
+  height: 730px;
   width: 650px;
 }
 
@@ -347,35 +346,43 @@ img.resize{
 /* Image(s) */
 .starbox .stars .star_holder .star {
   /*background-image: url('../resources/img/5-large-333.png'); !* or any other image *!*/
-  background-image: url('/images/gfd/5-large.png'); /* or any other image */
   width: 33px; /* make sure to use your image’s dimensions here */
   height: 33px;
+  background-image: url('/images/gfd/5-large.png'); /* or any other image */
 }
 
 /* Colours */
-/*.starbox .stars { background: #cccccc; }*/
 .starbox {
   float: left;
   cursor:pointer;
 }
 
-/*.starbox .stars { background: ghostwhite; }*/
-.starbox .stars { background: lightgray; }
-/*.starbox .rated .stars { background: #dcdcdc; }*/
-.starbox .rated .stars { background: #dcdcdc; }
-/*.starbox .rated.hover .stars { background: #cccccc; }*/
-.starbox .rated.hover .stars { background: #cccccc; }
-/*.starbox .colorbar { background: #1e90ff; }*/
-.starbox .colorbar { background: gold; }
-/*.starbox .hover .colorbar { background: #ffcc1c; }*/
-.starbox .hover .colorbar { background: #ffcc1c; }
-/*.starbox .rated .colorbar { background: #64b2ff; }*/
-.starbox .rated .colorbar { background: coral; }
-/*.starbox .rated.hover .colorbar { background: #1e90ff; }*/
-.starbox .rated.hover .colorbar { background: coral; }
-/*.starbox .rated.hover .colorbar { background: #1e90ff; }*/
-/*.starbox .ghost { background: #a1a1a1; }*/
-.starbox .ghost { background: lightslategray; }
+.starbox .stars {
+  background: lightgray;
+}
+
+.starbox .rated .stars {
+  background: #dcdcdc;
+}
+
+.starbox .rated.hover .stars {
+  background: #cccccc; }
+
+.starbox .colorbar {
+  background: gold;
+}
+
+.starbox .hover .colorbar {
+  background: #ffcc1c; }
+
+.starbox .rated .colorbar {
+  background: coral; }
+.starbox .rated.hover .colorbar {
+  background: coral;}
+.starbox .ghost {
+  background: lightslategray;
+  }
+
 
 /* Fin de estilos para el star rating */
 
@@ -416,7 +423,7 @@ a.btn:active {
 #Loading
 {
   display: none;
-  background: rgba(35,35,35,.7) url('/images/throbber/loading.gif') no-repeat 50% 50%;
+  background: rgba(35,35,35,.7) url('/images/gfd/throbber/loading.gif') no-repeat 50% 50%;
   width:100%;
   height:100%;
   position:fixed;

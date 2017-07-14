@@ -106,7 +106,7 @@ function insertarSPARQLbase() {
 module.exports = {
     insertarSPARQL : function () {
 
-        /*SaveClient = new Client("http://localhost:8890/sparql");
+        SaveClient = new Client(ENDPOINT_LOCAL);
 
         SaveClient.setOptions(
             "application/json",
@@ -118,7 +118,7 @@ module.exports = {
             new Triple(
                 "lkd:aurelio",
                 "<creado>",
-                new Text("Prueba en un rato nuevo","ja")
+                new Text("Prueba del 14 de Julio","ja")
             )
         );
 
@@ -126,10 +126,10 @@ module.exports = {
             .then((result => {
                 console.log(JSON.stringify(result));
             }))
-            .catch(console.log);*/
+            .catch(console.log);
 
         //insertarSPARQLbase();
-        insertarSPARQLxhr();
+        //insertarSPARQLxhr();
     },
 
     querySPARQL : function (query, endpoint, format) {
