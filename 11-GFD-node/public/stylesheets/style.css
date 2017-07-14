@@ -171,6 +171,10 @@ html, body {
  * Fin de estilo de menu
  */
 
+h1 {
+  color: cadetblue;
+}
+
 /*
  * Mapa
  */
@@ -371,12 +375,10 @@ img.resize{
 .starbox .colorbar {
   background: gold;
 }
-
 .starbox .hover .colorbar {
   background: #ffcc1c; }
 
-.starbox .rated .colorbar {
-  background: coral; }
+.starbox .rated .colorbar { background: coral; }
 .starbox .rated.hover .colorbar {
   background: coral;}
 .starbox .ghost {

@@ -349,8 +349,12 @@ function evaluarRating() {
     return (suma==0)?0:((((3*L3) + (2*L2) + (L1))/(suma))/3);
 }
 
-function rateClinic() {
+function rateClinicPre(){
     $("#Loading").show();
+    rateClinic();
+}
+
+function rateClinic() {
 
     //Debemos tomar todos los cambios nuevos
     var datos = [];
@@ -620,40 +624,67 @@ function rateClinic() {
             break;
     }
 
-    /*var voto = {
-     id : marker.id,
-     inglesDoc : ratingUsuarioInglesDoc,
-     inglesStaff : ratingUsuarioInglesStaff,
-     chinoDoc : ratingUsuarioChinoDoc,
-     chinoStaff : ratingUsuarioChinoStaff,
-     coreanoDoc : ratingUsuarioCoreanoDoc,
-     coreanoStaff : ratingUsuarioCoreanoStaff,
-     espanolDoc : ratingUsuarioEspanolDoc,
-     espanolStaff : ratingUsuarioEspanolStaff,
-     otroDoc : ratingUsuarioOtroDoc,
-     otroStaff : ratingUsuarioOtroStaff,
-     nivelDoc : ratingUsuarioFL,
-     indicaciones : ratingUsuarioIndicaciones
-     }*/
-
     //Enviar los datos a procesar - La respuesta se procesa en otro metodo
     var parametros = {
         datos : datos
     };
 
-    console.log(datos);
+    /*console.log(datos);
     console.log(JSON.stringify(parametros));
-    console.log('ID de la clinica a actualizar es: ' + marker.id);
+    console.log('ID de la clinica a actualizar es: ' + marker.id);*/
 
     var xhr = new XMLHttpRequest();
     xhr.open('PUT','http://localhost:8001/clinics/' + marker.id, false);
     xhr.setRequestHeader('Content-Type','application/json');
     xhr.send(JSON.stringify(parametros));
 
+    console.log('A parsear el JSON: ' + xhr.responseText);
     let resultado = JSON.parse(xhr.responseText);
-    console.log('Finalizo la llamada a la funcion de acutalizacion - ' + resultado);
+    console.log('Finalizo la llamada a la funcion de acutalizacion - ' + resultado.resultadosExitosos);
 
-    //Aqui finalizo la cuestion
+    if (resultado) {
+        alert('Clinic was sucessfully reviewed, thank you!');
+        $("#Loading").hide();
+        console.log("Re-cargar pagina");
+
+        xhr.open('GET','http://localhost:8001/clinics/' + marker.id, false);
+        xhr.setRequestHeader('Content-Type','application/json');
+        xhr.send(JSON.stringify(parametros));
+
+        console.log('Clinica actualizada: ' + xhr.responseText);
+        resultado = JSON.parse(xhr.responseText);
+
+        localStorage.setItem('clinica',JSON.stringify(armarClinica(marker.id, resultado)));
+    }
+    else {
+        alert('レビューに問題が発生しました。 - There was a problem reviewing the clinic.');
+        $("#Loading").hide();
+        console.log("Re-cargar pagina");
+    }
+
+    location.assign('review');
+
+}
+
+function armarClinica(clinicId, resData) {
+    console.log('Armar clinica');
+
+    //Aqui generamos los objetos particulares con cada uno de sus atributos
+
+    var clinica = { id: clinicId, type: "health"};
+
+    for (i = 0; i < resData.results.bindings.length; i++) {
+        var atributo = resData.results.bindings[i].atributo.value.split("#")[1];
+        var valor = resData.results.bindings[i].valor.value;
+        clinica[atributo] = valor; //Agregamos el valor a la clinica
+    }
+
+    clinica['position'] = new google.maps.LatLng(clinica.lat, clinica.long);
+    console.log(clinica);
+    clinica['title'] = clinica.name;
+    clinica['description'] = clinica.address;
+
+    return clinica;
 }
 
 function clickThumb(element) {

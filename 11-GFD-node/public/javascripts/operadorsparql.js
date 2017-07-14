@@ -149,5 +149,21 @@ module.exports = {
         xmlhttp.send();
 
         return JSON.parse(xmlhttp.responseText);
+    },
+
+    updateSPARQL : function (query, endpoint, format) {
+        if(!format)
+            format="application/json";
+
+        if(!endpoint)
+            endpoint = ENDPOINT_LOCAL;
+
+        let xmlhttp = new XMLHttpRequest();
+        let url = endpoint + "?query=" +encodeURIComponent(query)+"&format="+format;
+
+        xmlhttp.open("GET",url, false);
+        xmlhttp.send();
+
+        return JSON.parse(xmlhttp.responseText);
     }
 };
