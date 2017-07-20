@@ -440,6 +440,98 @@ a.btn:active {
  * Fin de estilos Clinic Review
  */
 
+/*===========================*/
+/* ESTILO PARA CREAR CLINICA */
+/*===========================*/
+
+#mapC {
+  /*-webkit-transition: all 1000ms ease-in;*/
+  /*-moz-transition: all 1000ms ease-in;*/
+  /*transition: all 100ms ease-in;*/
+}
+
+#imagenLogo {
+  -webkit-transition: all 1000ms ease-out;
+  -moz-transition: all 1000ms ease-out;
+  transition: all 1000ms ease-out;
+}
+
+.divDatosClinica{
+  width: 70%;
+  padding: 30px;
+  background: #FFFFFF;
+  margin: 10px auto;
+  overflow: auto;
+  /*box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  *-moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  *-webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
+  */
+
+}
+.divDatosClinica h2{
+  background: #4D4D4D;
+  text-transform: uppercase;
+  color: #797979;
+  font-size: 18px;
+  font-weight: 100;
+  padding: 20px;
+  margin: -30px -30px 30px -30px;
+}
+.divDatosClinica input[type="text"],
+.divDatosClinica input[type="date"],
+.divDatosClinica input[type="datetime"],
+.divDatosClinica input[type="email"],
+.divDatosClinica input[type="number"],
+.divDatosClinica input[type="search"],
+.divDatosClinica input[type="time"],
+.divDatosClinica input[type="url"],
+.divDatosClinica input[type="password"],
+.divDatosClinica textarea,
+.divDatosClinica select
+{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 45%;
+  padding: 7px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background: transparent;
+  margin-bottom: 10px;
+  font-size: 16px;
+  height: 45px;
+}
+.divDatosClinica textarea{
+  resize:none;
+  overflow: hidden;
+}
+.divDatosClinica input[type="button"],
+.divDatosClinica input[type="submit"]{
+  -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  background-color: #2CBBBB;
+  border: 1px solid #27A0A0;
+  display: inline-block;
+  cursor: pointer;
+  color: #FFFFFF;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 14px;
+  padding: 8px 18px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.divDatosClinica input[type="button"]:hover,
+.divDatosClinica input[type="submit"]:hover {
+  background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
+  background-color:#34CACA;
+}
+
+/*==================================*/
+/* FIN DE ESTILO PARA CREAR CLINICA */
+/*==================================*/
 
 /*
  * Fin de estilos GFD
