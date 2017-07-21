@@ -142,9 +142,6 @@ module.exports = {
         let xmlhttp = new XMLHttpRequest();
         let url = endpoint + "?query=" +encodeURIComponent(query)+"&format="+format;
 
-        //console.log("URL2 es: " + url2);
-
-        //TODO: La llamada en el servidor al final debe ser mediante un proxy para evitar problemas CORS
         xmlhttp.open("GET",url, false);
         xmlhttp.send();
 
@@ -157,6 +154,22 @@ module.exports = {
 
         if(!endpoint)
             endpoint = ENDPOINT_LOCAL;
+
+        let xmlhttp = new XMLHttpRequest();
+        let url = endpoint + "?query=" +encodeURIComponent(query)+"&format="+format;
+
+        xmlhttp.open("GET",url, false);
+        xmlhttp.send();
+
+        return JSON.parse(xmlhttp.responseText);
+    },
+
+    insertSPARQL : function (query, endpoint, format) {
+      if (!format)
+          format = 'application/json';
+
+      if (!endpoint)
+          endpoint = ENDPOINT_LOCAL;
 
         let xmlhttp = new XMLHttpRequest();
         let url = endpoint + "?query=" +encodeURIComponent(query)+"&format="+format;

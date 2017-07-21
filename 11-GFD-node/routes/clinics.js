@@ -9,6 +9,10 @@ router.get('/', function(req, res, next) {(
     res.send(ClinicsController.getAllClinics()));
 });
 
+router.post('/', function(req, res, next) {
+    res.send(ClinicsController.insertClinic(req));
+});
+
 router.get('/:id',function(req, res, next){
     //Obtener los datos de una sola clinica
     res.send(ClinicsController.getClinic(req.params.id));

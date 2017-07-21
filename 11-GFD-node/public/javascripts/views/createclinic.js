@@ -52,7 +52,6 @@ function displayMap(element) {
     if (!element.value) {
         // alert('Please enter an address');
         direccionClinica = null;
-        // element.focus();   // <======= why isn't this having any effect??
     }
     else {
         direccionClinica = element.value
@@ -344,4 +343,241 @@ function obtenerCoordenadas(valor) {
             verificarVisibilidad();
         }
     });
+}
+
+function agregarClinica() {
+    var ok = true;
+
+    //Agarrar los valores
+    console.log("Nombre de la clinica :" + nombreClinica);
+    console.log("Direccion de la clinica :" + direccionClinica);
+
+    if (marker != null) {
+        console.log("Coordenadas de la clinica - Latitud: " + marker.position.lat() +
+            " Longitud: " + marker.position.lng());
+    }
+
+    //Validar
+    //TODO: Agregar validaciones mejoradas
+
+    if (nombreClinica == undefined) {
+        alert('クリニックの名前を入力してください - Please input a clinic name');
+        ok = false;
+    }
+    else if (direccionClinica == undefined) {
+        alert('クリニックの住所を入力してください - Please enter an address');
+        ok = false;
+    }
+    else if (marker == null) {
+        alert('地図にクリニックの位置を設定してください - Please pick a location on the map');
+        ok = false;
+    }
+
+    //Agregar
+
+    if (ok) {
+        console.log('Agregar la clinica');
+
+        let clinica = {};
+
+        clinica["name"] = nombreClinica;
+        clinica["address"] = direccionClinica;
+        clinica["lat"] = marker.position.lat();
+        clinica["lng"] = marker.position.lng();
+
+        //Ingles Doctor
+        if (ratingUsuarioInglesDoc == null || ratingUsuarioInglesDoc== undefined) {
+            clinica["doctorSpeaksEnglishTrue"] = 0;
+            clinica["doctorSpeaksEnglishFalse"] = 0;
+        }
+        else if (ratingUsuarioInglesDoc=='up') { //Positivo
+            clinica["doctorSpeaksEnglishTrue"] = 1;
+            clinica["doctorSpeaksEnglishFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["doctorSpeaksEnglishTrue"] = 0;
+            clinica["doctorSpeaksEnglishFalse"] = 1;
+        }
+
+        //Ingles Staff
+        if (ratingUsuarioInglesStaff == null || ratingUsuarioInglesStaff== undefined) {
+            clinica["staffSpeaksEnglishTrue"] = 0;
+            clinica["staffSpeaksEnglishFalse"] = 0;
+        }
+        else if (ratingUsuarioInglesStaff=='up') { //Positivo
+            clinica["staffSpeaksEnglishTrue"] = 1;
+            clinica["staffSpeaksEnglishFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["staffSpeaksEnglishFalse"] = 1;
+            clinica["staffSpeaksEnglishTrue"] = 0;
+        }
+
+        //Chino Doctor
+        if (ratingUsuarioChinoDoc == null || ratingUsuarioChinoDoc== undefined) {
+            clinica["doctorSpeaksChineseTrue"] = 0;
+            clinica["doctorSpeaksChineseFalse"] = 0;
+        }
+        else if (ratingUsuarioChinoDoc=='up') { //Positivo
+            clinica["doctorSpeaksChineseTrue"] = 1;
+            clinica["doctorSpeaksChineseFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["doctorSpeaksChineseFalse"] = 1;
+            clinica["doctorSpeaksChineseTrue"] = 0;
+        }
+
+        //Chino Staff
+        if (ratingUsuarioChinoStaff == null || ratingUsuarioChinoStaff== undefined) {
+            clinica["staffSpeaksChineseTrue"] = 0;
+            clinica["staffSpeaksChineseFalse"] = 0;
+        }
+        else if (ratingUsuarioChinoStaff=='up') { //Positivo
+            clinica["staffSpeaksChineseTrue"] = 1;
+            clinica["staffSpeaksChineseFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["staffSpeaksChineseFalse"] = 1;
+            clinica["staffSpeaksChineseTrue"] = 0;
+        }
+
+        //Coreano doctor
+        if (ratingUsuarioCoreanoDoc == null || ratingUsuarioCoreanoDoc== undefined) {
+            clinica["doctorSpeaksKoreanTrue"] = 0;
+            clinica["doctorSpeaksKoreanFalse"] = 0;
+        }
+        else if (ratingUsuarioCoreanoDoc=='up') { //Positivo
+            clinica["doctorSpeaksKoreanTrue"] = 1;
+            clinica["doctorSpeaksKoreanFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["doctorSpeaksKoreanFalse"] = 1;
+            clinica["doctorSpeaksKoreanTrue"] = 0;
+        }
+
+        //Coreano Staff
+        if (ratingUsuarioCoreanoStaff == null || ratingUsuarioCoreanoStaff== undefined) {
+            clinica["staffSpeaksKoreanTrue"] = 0;
+            clinica["staffSpeaksKoreanFalse"] = 0;
+        }
+        else if (ratingUsuarioCoreanoStaff=='up') { //Positivo
+            clinica["staffSpeaksKoreanTrue"] = 1;
+            clinica["staffSpeaksKoreanFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["staffSpeaksKoreanFalse"] = 1;
+            clinica["staffSpeaksKoreanTrue"] = 0;
+        }
+
+        //Espanol doctor
+        if (ratingUsuarioEspanolDoc == null || ratingUsuarioEspanolDoc== undefined) {
+            clinica["doctorSpeaksSpanishTrue"] = 0;
+            clinica["doctorSpeaksSpanishFalse"] = 0;
+        }
+        else if (ratingUsuarioEspanolDoc=='up') { //Positivo
+            clinica["doctorSpeaksSpanishTrue"] = 1;
+            clinica["doctorSpeaksSpanishFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["doctorSpeaksSpanishFalse"] = 1;
+            clinica["doctorSpeaksSpanishTrue"] = 0;
+        }
+
+        //Espanol Staff
+        if (ratingUsuarioEspanolStaff == null || ratingUsuarioEspanolStaff== undefined) {
+            clinica["staffSpeaksSpanishTrue"] = 0;
+            clinica["staffSpeaksSpanishFalse"] = 0;
+        }
+        else if (ratingUsuarioEspanolStaff=='up') { //Positivo
+            clinica["staffSpeaksSpanishTrue"] = 1;
+            clinica["staffSpeaksSpanishFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["staffSpeaksSpanishFalse"] = 1;
+            clinica["staffSpeaksSpanishTrue"] = 0;
+        }
+
+        //Otro doctor
+        if (ratingUsuarioOtroDoc == null || ratingUsuarioOtroDoc== undefined) {
+            clinica["doctorSpeaksOtherTrue"] = 0;
+            clinica["doctorSpeaksOtherFalse"] = 0;
+        }
+        else if (ratingUsuarioOtroDoc=='up') { //Positivo
+            clinica["doctorSpeaksOtherTrue"] = 1;
+            clinica["doctorSpeaksOtherFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["doctorSpeaksOtherFalse"] = 1;
+            clinica["doctorSpeaksOtherTrue"] = 0;
+        }
+
+        //Otro Staff
+        if (ratingUsuarioOtroStaff == null || ratingUsuarioOtroStaff== undefined) {
+            clinica["staffSpeaksOtherTrue"] = 0;
+            clinica["staffSpeaksOtherFalse"] = 0;
+        }
+        else if (ratingUsuarioOtroStaff=='up') { //Positivo
+            clinica["staffSpeaksOtherTrue"] = 1;
+            clinica["staffSpeaksOtherFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["staffSpeaksOtherFalse"] = 1;
+            clinica["staffSpeaksOtherTrue"] = 0;
+        }
+
+        if (ratingUsuarioFL) {
+            switch (ratingUsuarioFL) {
+                case 1:
+                    clinica["FriendlyL1"]  = 1;
+                    clinica["FriendlyL2"]  = 0;
+                    clinica["FriendlyL3"]  = 0;
+                    break;
+                case 2:
+                    clinica["FriendlyL1"]  = 0;
+                    clinica["FriendlyL2"]  = 1;
+                    clinica["FriendlyL3"]  = 0;
+                    break;
+                case 3:
+                    clinica["FriendlyL1"]  = 0;
+                    clinica["FriendlyL2"]  = 0;
+                    clinica["FriendlyL3"]  = 1;
+                    break;
+                default: break;
+            }
+        }
+        else {
+            clinica["FriendlyL1"]  = 0;
+            clinica["FriendlyL2"]  = 0;
+            clinica["FriendlyL3"]  = 0;
+        }
+
+        //Indicaciones
+        if (ratingUsuarioIndicaciones == null || ratingUsuarioIndicaciones== undefined) {
+            clinica["ForeignLanguageTreatmentExplanationTrue"] = 0;
+            clinica["ForeignLanguageTreatmentExplanationFalse"] = 0;
+        }
+        else if (ratingUsuarioIndicaciones=='up') { //Positivo
+            clinica["ForeignLanguageTreatmentExplanationTrue"] = 1;
+            clinica["ForeignLanguageTreatmentExplanationFalse"] = 0;
+        }
+        else { //Negativo
+            clinica["ForeignLanguageTreatmentExplanationFalse"] = 1;
+            clinica["ForeignLanguageTreatmentExplanationTrue"] = 0;
+        }
+
+        console.log(clinica);
+
+        let parametros = {
+            datos : clinica
+        };
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST','http://localhost:8001/clinics/', false);
+        xhr.setRequestHeader('Content-Type','application/json');
+        xhr.send(JSON.stringify(parametros));
+
+        console.log('A parsear el JSON: ' + xhr.responseText);
+        let resultado = JSON.parse(xhr.responseText);
+        console.log('Finalizo la llamada a la funcion de insert - ' + resultado.resultado);
+    }
 }
