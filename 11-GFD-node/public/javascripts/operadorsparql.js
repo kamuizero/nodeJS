@@ -7,6 +7,34 @@ function insertarSPARQLcliente() {
 
 }
 
+function insertarSPARQL(){
+
+    SaveClient = new Client(ENDPOINT_LOCAL);
+
+    SaveClient.setOptions(
+        "application/json",
+        {lkd : "http://linkdata.org/property/rdf1s4853i"},
+        "http://lod.mdg/"
+    );
+
+    SaveClient.getLocalStore().add(
+        new Triple(
+            "lkd:aurelio",
+            "<creado>",
+            new Text("Prueba del 14 de Julio","ja")
+        )
+    );
+
+    SaveClient.store(true)
+        .then((result => {
+            console.log(JSON.stringify(result));
+        }))
+        .catch(console.log);
+
+    //insertarSPARQLbase();
+    //insertarSPARQLxhr();
+}
+
 function insertarSPARQLxhr() {
 
     var data = "query=INSERT%20DATA%20%7B%20GRAPH%20%3Chttp%3A%2F%2Flod.mdg%2F%3E%20%7B%20%3Cd%3E%20%3Ce%3E%20%22NUEVA%20PRUEBA%202%20despues%20de%20Postm1231243124124BBB%22%7D%7D";
@@ -104,33 +132,6 @@ function insertarSPARQLbase() {
 }
 
 module.exports = {
-    insertarSPARQL : function () {
-
-        SaveClient = new Client(ENDPOINT_LOCAL);
-
-        SaveClient.setOptions(
-            "application/json",
-            {lkd : "http://linkdata.org/property/rdf1s4853i"},
-            "http://lod.mdg/"
-        );
-
-        SaveClient.getLocalStore().add(
-            new Triple(
-                "lkd:aurelio",
-                "<creado>",
-                new Text("Prueba del 14 de Julio","ja")
-            )
-        );
-
-        SaveClient.store(true)
-            .then((result => {
-                console.log(JSON.stringify(result));
-            }))
-            .catch(console.log);
-
-        //insertarSPARQLbase();
-        //insertarSPARQLxhr();
-    },
 
     querySPARQL : function (query, endpoint, format) {
         if(!format)

@@ -64,6 +64,9 @@ function crearArreglo(re) {
         var valor = re.results.bindings[i].valor.value;
         var id = re.results.bindings[i].clinica.value.split("#")[1]; //Unicamente el ID
 
+        if (id == '495')
+            console.log('EL ID ES: ' + id);
+
         if (!clinica)
             clinica = { id: id, type: "health"};
         else if (id != clinica.id) { //Nueva clinica
@@ -73,6 +76,11 @@ function crearArreglo(re) {
         }
 
         clinica[atributo] = valor; //Agregamos el valor a la clinica
+        if (id == '495' || id == '494') {
+            console.log(id + 'El atributo es: ' + atributo);
+            console.log(id + 'El valor es: ' + valor);
+        }
+
     }
 
     return clinicas;

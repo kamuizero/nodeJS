@@ -1,5 +1,6 @@
 //Clase para la manipulacion de requests de la API rest para dar los resultados
 const operadorSPQ = require('../operadorsparql');
+const DEFAULT_GRAPH = 'http://lod.mdg/';
 
 function getAtribute(clinicId, atribute, grafo) {
     if (!grafo)
@@ -12,7 +13,7 @@ function getAtribute(clinicId, atribute, grafo) {
 }
 
 function getMaxID() {
-    let grafo = 'http://lod.mdg/';
+    let grafo = DEFAULT_GRAPH;
 
     let query = 'PREFIX xsd:<http://www.w3.org/2001/XMLSchema#> ' +
         'select ?maxid ' +
@@ -26,7 +27,7 @@ function getMaxID() {
 function updateAtribute(clinicId, atribute, value, grafo) {
 
     if (!grafo)
-        grafo = 'http://lod.mdg/';
+        grafo = DEFAULT_GRAPH;
 
     let query = 'WITH <' + grafo + '> ' +
         'DELETE { <http://linkdata.org/resource/rdf1s4853i#' + clinicId + '> <http://linkdata.org/property/rdf1s4853i#' + atribute + '> ?o } ' +
@@ -40,25 +41,58 @@ function updateAtribute(clinicId, atribute, value, grafo) {
 function insertClinic(clinicId, params, grafo) {
 
     if (!grafo)
-        grafo = 'hhtp://lod.mdg/';
+        grafo = DEFAULT_GRAPH;
 
-    let query = 'PREFIX lkd:<http://linkdata.org/property/rdf1s4853i> ' +
-        'lkdres:<http://linkdata.org/resource/rdf1s4853i> ' +
+    let query = 'PREFIX lkd:<http://linkdata.org/property/rdf1s4853i#> ' +
+        'PREFIX lkdres:<http://linkdata.org/resource/rdf1s4853i#> ' +
         'INSERT INTO <' + grafo + '> ' +
         '{ ' +
-        '<lkdres:' + clinicId + '> <lkd:address> \"' + params.address + '\" . ' +
-        '<lkdres:' + clinicId + '> <lkd:name> \"' + params.name + '\" . ' +
-        '<lkdres:' + clinicId + '> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ' + params.lat +  ' . ' +
-        '<lkdres:' + clinicId + '> <http://www.w3.org/2003/01/geo/wgs84_pos#lng> ' + params.lat +  ' . ' +
-        '<lkdres:' + clinicId + '> <http://www.w3.org/2000/01/rdf-schema#label> \"' + clinicId +  '\" . ' +
+        'lkdres:' + clinicId + ' lkd:address \"' + params.address + '\"@ja . ' +
+        'lkdres:' + clinicId + ' lkd:name \"' + params.name + '\"@ja . ' +
+        'lkdres:' + clinicId + ' <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ' + params.lat +  ' . ' +
+        'lkdres:' + clinicId + ' <http://www.w3.org/2003/01/geo/wgs84_pos#long> ' + params.lng +  ' . ' +
+        'lkdres:' + clinicId + ' <http://www.w3.org/2000/01/rdf-schema#label> \"' + clinicId +  '\"@ja . ' +
 
-        '<lkdres:' + clinicId + '> <lkd:doctorSpeaksEnglishTrue> \"' + params.doctorSpeaksEnglishTrue + '\" . ' +
-        '<lkdres:' + clinicId + '> <lkd:doctorSpeaksEnglishFalse> \"' + params.doctorSpeaksEnglishTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksEnglishTrue \"' + params.doctorSpeaksEnglishTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksEnglishFalse \"' + params.doctorSpeaksEnglishFalse + '\" . ' +
 
-        '<lkdres:' + clinicId + '> <lkd:staffSpeaksEnglishTrue> \"' + params.doctorSpeaksEnglishTrue + '\" . ' +
-        '<lkdres:' + clinicId + '> <lkd:staffSpeaksEnglishFalse> \"' + params.doctorSpeaksEnglishTrue + '\" . ' +
-        //Seguir con los demas atributos
+        'lkdres:' + clinicId + ' lkd:staffSpeaksEnglishTrue \"' + params.staffSpeaksEnglishTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:staffSpeaksEnglishFalse \"' + params.staffSpeaksEnglishFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksChineseTrue \"' + params.doctorSpeaksChineseTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksChineseFalse \"' + params.doctorSpeaksChineseFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:staffSpeaksChineseTrue \"' + params.staffSpeaksChineseTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:staffSpeaksChineseFalse \"' + params.staffSpeaksChineseFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksKoreanTrue \"' + params.doctorSpeaksKoreanTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksKoreanFalse \"' + params.doctorSpeaksKoreanFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:staffSpeaksKoreanTrue \"' + params.staffSpeaksKoreanTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:staffSpeaksKoreanFalse \"' + params.staffSpeaksKoreanFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksSpanishTrue \"' + params.doctorSpeaksSpanishTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksSpanishFalse \"' + params.doctorSpeaksSpanishFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:staffSpeaksSpanishTrue \"' + params.staffSpeaksSpanishTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:staffSpeaksSpanishFalse \"' + params.staffSpeaksSpanishFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksOtherTrue \"' + params.doctorSpeaksOtherTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:doctorSpeaksOtherFalse \"' + params.doctorSpeaksOtherFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:staffSpeaksOtherTrue \"' + params.staffSpeaksOtherTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:staffSpeaksOtherFalse \"' + params.staffSpeaksOtherFalse + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:FriendlyL1 \"' + params.FriendlyL1 + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:FriendlyL2 \"' + params.FriendlyL2 + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:FriendlyL3 \"' + params.FriendlyL3 + '\" . ' +
+
+        'lkdres:' + clinicId + ' lkd:ForeignLanguageTreatmentExplanationTrue \"' + params.ForeignLanguageTreatmentExplanationTrue + '\" . ' +
+        'lkdres:' + clinicId + ' lkd:ForeignLanguageTreatmentExplanationFalse \"' + params.ForeignLanguageTreatmentExplanationFalse + '\" . ' +
         ' }';
+
+    console.log(query);
+    return operadorSPQ.insertSPARQL(query);
 }
 
 module.exports = {
@@ -67,7 +101,8 @@ module.exports = {
         //Consultamos las clinicas
         console.log('Buscar todas las clinicas');
 
-        let grafo = 'http://lod.mdg/';
+        let grafo = DEFAULT_GRAPH;
+
         let query = "PREFIX lkd:<http://linkdata.org/property/rdf1s4853i> " +
             "select * from <" + grafo + "> " +
             "where { " +
@@ -82,7 +117,7 @@ module.exports = {
     getClinic : function(clinicId) {
         console.log('Buscar clinica: ' + clinicId);
 
-        let grafo = 'http://lod.mdg/';
+        let grafo = DEFAULT_GRAPH;
         let query ='select * from <' + grafo + '> ' +
             'where { <http://linkdata.org/resource/rdf1s4853i#' + clinicId + '> ?atributo ?valor}';
 
@@ -106,8 +141,21 @@ module.exports = {
             console.log(datosClinica);
 
             //Realizar el insert
-            //let resultadoInsert = insertClinic(); //clinica,cambios[i].atributo, valorNuevo, grafo);
+            resultadoInsert = insertClinic(id,datosClinica);
 
+            if (resultadoInsert) {
+                resultadoInsert = resultadoInsert.results.bindings[0]['callret-0'].value.toString();
+
+                //Chequear aqui lo de la palabra INSERT
+                if ( (resultadoInsert.includes('Insert')) && (resultadoInsert.includes('done')) ) {
+                    console.log('Clinica insertada - ' + resultadoInsert);
+                    resultadoInsert = 1;
+                }
+                else {
+                    console.log('Error al insertar la clinica');
+                    resultadoInsert = 0;
+                }
+            }
 
         } else {
             console.error('Error al obtener ID maximo');
@@ -117,7 +165,7 @@ module.exports = {
     },
 
     updateClinic : function (req, res) {
-        let grafo = 'http://lod.mdg/';
+        let grafo = DEFAULT_GRAPH;
         let cambios = req.body.datos;
         let clinica = req.params.id;
         let updatesExitosos = 0;
