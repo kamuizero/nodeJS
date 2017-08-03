@@ -10,6 +10,7 @@ var methodOverride = require('method-override');
 var index = require('./routes/index');
 var clinics = require('./routes/clinics');
 var arduino = require('./routes/arduino');
+var processing = require('./routes/processing');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use(methodOverride());
 app.use('/', index);
 app.use('/clinics', clinics);
 app.use('/arduino',arduino);
+app.use('/processing', processing);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

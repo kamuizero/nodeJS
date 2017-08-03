@@ -663,7 +663,6 @@ function rateClinic() {
     }
 
     location.assign('review');
-
 }
 
 function armarClinica(clinicId, resData) {

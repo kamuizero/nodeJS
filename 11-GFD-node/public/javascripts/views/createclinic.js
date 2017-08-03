@@ -578,13 +578,16 @@ function agregarClinica() {
 
         console.log('A parsear el JSON: ' + xhr.responseText);
         let resultado = JSON.parse(xhr.responseText);
-        console.log('Finalizo la llamada a la funcion de insert - ' + resultado.resultado);
+        let resInsert = resultado.resultado;
+        console.log('Finalizo la llamada a la funcion de insert - ' + resInsert);
 
-        if (resultado.resultado == 0){
+        if (resInsert == '1'){
             alert('Clinica insertada correctamente');
         }
         else {
             alert('Error al agregar clinica');
         }
+
+        location.assign('/');
     }
 }

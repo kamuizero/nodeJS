@@ -20,4 +20,10 @@ router.get('/', function(req, res, next) { //arduino
     res.sendStatus(200);
 });
 
+router.get('/eventos', function(req, res, next){
+    console.log('GET /eventos - Buscar todos los eventos');
+    ArduinoController.leerEventos(res);
+    // res.json(ArduinoController.leerEventos());
+});
+
 module.exports = router; //Necesario para habilitar las rutas

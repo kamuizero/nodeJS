@@ -33,11 +33,12 @@ function registrarPosicion(evento) {
     return true;
 }
 
-function buscarEventos() {
+function buscarEventos(res) {
     EventoArduino.find()
         .then( function(doc) {
-            return ({items:doc});
-        });
+            res.json({items:doc});
+        })
+        .catch(console.log);
 }
 
 module.exports = {
@@ -155,9 +156,9 @@ module.exports = {
         }
     },
 
-    leerEventos: function () {
+    leerEventos: function (res) {
         console.log("Leer elementos");
-        return buscarEventos();
+        buscarEventos(res);
     }
 
 };
