@@ -1,6 +1,7 @@
 const {Client, Node, Text, Data, Triple} = require('virtuoso-sparql-client');
 const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 const ENDPOINT_LOCAL = 'http://localhost:8890/sparql';
+const DEFAULT_GRAPH = 'http://lod.mdg/';
 
 //Usando el modulo virtuoso-sparql-client
 function insertarSPARQLcliente() {
@@ -179,5 +180,17 @@ module.exports = {
         xmlhttp.send();
 
         return JSON.parse(xmlhttp.responseText);
+    },
+
+    getMaxClinicID : function () {
+        let grafo = DEFAULT_GRAPH;
+
+        let query = 'PREFIX xsd:<http://www.w3.org/2001/XMLSchema#> ' +
+            'select ?maxid ' +
+            'from <' + grafo + '> ' +
+            'where { ?s rdfs:label ?o . BIND(xsd:integer(?o) AS ?maxid) FILTER(?maxid > 0) } ' +
+            'ORDER BY DESC(?maxid) LIMIT 1';
+
+        return this.querySPARQL(query);
     }
 };
