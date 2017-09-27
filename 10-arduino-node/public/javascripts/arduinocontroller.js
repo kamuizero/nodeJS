@@ -4,8 +4,6 @@ var mongoose = require('mongoose');
 mongoose.connect(url);
 var Schema = mongoose.Schema;
 
-
-
 //Definir el esquema de la transaccion en la base de datos, esto ayuda a la validacion
 var eventoArduinoSchema = new Schema ({
     tiempo: {type: String, required: true},
