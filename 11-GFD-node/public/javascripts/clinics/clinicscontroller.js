@@ -1,5 +1,6 @@
 //Clase para la manipulacion de requests de la API rest para dar los resultados
 const operadorSPQ = require('../operadorsparql');
+const operadorMDB = require('../operadormongodb');
 const DEFAULT_GRAPH = 'http://lod.mdg/';
 
 function getAtribute(clinicId, atribute, grafo) {
@@ -24,6 +25,10 @@ function getMaxID() {
     return operadorSPQ.querySPARQL(query);
 }
 
+function getMaxIDMDB() {
+    operadorMDB.getMaxID();
+}
+
 function updateAtribute(clinicId, atribute, value, grafo) {
 
     if (!grafo)
@@ -43,7 +48,44 @@ function insertClinic(clinicId, params, grafo) {
     if (!grafo)
         grafo = DEFAULT_GRAPH;
 
-    let query = 'PREFIX lkd:<http://linkdata.org/property/rdf1s4853i#> ' +
+    let clinic = {
+        id : clinicId, //id y label son iguales
+        name: params.name,
+        address: params.address,
+        lat: params.lat,
+        long: params.lng,
+        label: clinicId, //label y id osn iguales, label es en Virtuoso
+        doctorSpeaksEnglishTrue: params.doctorSpeaksEnglishTrue,
+        doctorSpeaksEnglishFalse: params.doctorSpeaksEnglishFalse,
+        doctorSpeaksChineseTrue : params.doctorSpeaksChineseTrue,
+        doctorSpeaksChineseFalse: params.doctorSpeaksChineseFalse,
+        doctorSpeaksKoreanTrue: params.doctorSpeaksKoreanTrue,
+        doctorSpeaksKoreanFalse: params.doctorSpeaksKoreanFalse,
+        doctorSpeaksSpanishTrue: params.doctorSpeaksSpanishTrue,
+        doctorSpeaksSpanishFalse: params.doctorSpeaksSpanishFalse,
+        doctorSpeaksOtherTrue: params.doctorSpeaksOtherTrue,
+        doctorSpeaksOtherFalse: params.doctorSpeaksOtherFalse,
+
+        staffSpeaksEnglishTrue : params.staffSpeaksEnglishTrue,
+        staffSpeaksEnglishFalse : params.staffSpeaksEnglishFalse,
+        staffSpeaksChineseTrue: params.staffSpeaksChineseTrue,
+        staffSpeaksChineseFalse: params.staffSpeaksChineseFalse,
+        staffSpeaksKoreanTrue: params.staffSpeaksKoreanTrue,
+        staffSpeaksKoreanFalse: params.staffSpeaksKoreanFalse,
+        staffSpeaksSpanishTrue: params.staffSpeaksSpanishTrue,
+        staffSpeaksSpanishFalse: params.staffSpeaksSpanishFalse,
+        staffSpeaksOtherTrue: params.staffSpeaksOtherTrue,
+        staffSpeaksOtherFalse: params.staffSpeaksOtherFalse,
+
+        FriendlyL1: params.FriendlyL1,
+        FriendlyL2: params.FriendlyL2,
+        FriendlyL3: params.FriendlyL3,
+
+        ForeignLanguageExplanationTrue : params.ForeignLanguageTreatmentExplanationTrue,
+        ForeignLanguageExplanationFalse : params.ForeignLanguageTreatmentExplanationFalse,
+    };
+
+    /*let query = 'PREFIX lkd:<http://linkdata.org/property/rdf1s4853i#> ' +
         'PREFIX lkdres:<http://linkdata.org/resource/rdf1s4853i#> ' +
         'INSERT INTO <' + grafo + '> ' +
         '{ ' +
@@ -89,10 +131,14 @@ function insertClinic(clinicId, params, grafo) {
 
         'lkdres:' + clinicId + ' lkd:ForeignLanguageTreatmentExplanationTrue \"' + params.ForeignLanguageTreatmentExplanationTrue + '\" . ' +
         'lkdres:' + clinicId + ' lkd:ForeignLanguageTreatmentExplanationFalse \"' + params.ForeignLanguageTreatmentExplanationFalse + '\" . ' +
-        ' }';
+        ' }';*/
 
-    console.log(query);
-    return operadorSPQ.insertSPARQL(query);
+    //console.log(query);
+
+    console.log(clinic);
+
+    return operadorMDB.insertClinic(clc);
+    //return operadorSPQ.insertSPARQL(query);
 }
 
 module.exports = {
@@ -130,12 +176,13 @@ module.exports = {
     insertClinic : function(req, res) {
         //Primero buscamos el ID mas alto
         console.log('Insertar Clinica');
-        let id = getMaxID();
+        //let id = getMaxID(); //VIRTUOSO
+        let id = getMaxIDMDB();
         let datosClinica = req.body.datos;
         let resultadoInsert = 0;
 
         if (id) {
-            id = parseInt(id.results.bindings[0].maxid.value); //Aqui tenemos el ID
+            //id = parseInt(id.results.bindings[0].maxid.value); //Aqui tenemos el ID
             id++;
             console.log('ID de nueva clinica a crear es: ' + id);
             console.log(datosClinica);
@@ -162,6 +209,40 @@ module.exports = {
         }
 
         return JSON.parse('{"resultado" : ' + resultadoInsert + "}")
+    },
+
+    insertClinicMDB : function(req, res) {
+        //Primero buscamos el ID mas alto
+        console.log('Insertar Clinica');
+
+        let id = getMaxIDMDB();
+        let datosClinica = req.body.datos;
+        let resultadoInsert = 0;
+
+        //Esta linea es solo para cuestiones de PRUEBA
+        id = false; //Eliminar esta linea cuando la logica del MAX ID este funcionando
+
+        if (id) {
+            id++;
+            console.log('ID de nueva clinica a crear es: ' + id);
+            console.log(datosClinica);
+
+            //Realizar el insert
+            resultadoInsert = insertClinic(id,datosClinica);
+
+            if (resultadoInsert) {
+                console.log('Clinica insertada - ' + resultadoInsert);
+                resultadoInsert = 1;
+            }
+            else {
+                console.log('Error al insertar la clinica');
+                resultadoInsert = 0;
+            }
+        } else {
+            console.error('Error al obtener ID maximo');
+        }
+
+        return JSON.parse('{"resultado" : ' + resultadoInsert + "}");
     },
 
     updateClinic : function (req, res) {

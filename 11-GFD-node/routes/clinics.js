@@ -10,7 +10,8 @@ router.get('/', function(req, res, next) {(
 });
 
 router.post('/', function(req, res, next) {
-    res.send(ClinicsController.insertClinic(req));
+    //res.send(ClinicsController.insertClinic(req));
+    res.send(ClinicsController.insertClinicMDB(req));
 });
 
 router.get('/:id',function(req, res, next){
