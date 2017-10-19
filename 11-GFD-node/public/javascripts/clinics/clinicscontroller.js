@@ -1,6 +1,7 @@
 //Clase para la manipulacion de requests de la API rest para dar los resultados
 const operadorSPQ = require('../operadorsparql');
 const operadorMDB = require('../operadormongodb');
+const operadorMSQL = require('../../../private/javascripts/operadormysql');
 const DEFAULT_GRAPH = 'http://lod.mdg/';
 
 function getAtribute(clinicId, atribute, grafo) {
@@ -160,6 +161,12 @@ module.exports = {
         return operadorSPQ.querySPARQL(query);
     },
 
+    getAllClinicsMSQL  : function (req, res) {
+        //Consultamos las clinicas
+        console.log('Buscar todas las clinicas MSQL');
+        operadorMSQL.buscarTodasClinicas(res);
+    },
+
     getClinic : function(clinicId) {
         console.log('Buscar clinica: ' + clinicId);
 
@@ -209,6 +216,45 @@ module.exports = {
         }
 
         return JSON.parse('{"resultado" : ' + resultadoInsert + "}")
+    },
+
+    insertClinicMSQL : function (req, res) {
+        console.log('Insertar Clinica MySQL');
+        let datosClinica = req.body.datos;
+        let params = {
+            name: datosClinica.name,
+            address: datosClinica.address,
+            lat: datosClinica.lat,
+            long: datosClinica.lng,
+            label: 1, //Por definir
+            doctorSpeaksEnglishTrue: datosClinica.doctorSpeaksEnglishTrue,
+            doctorSpeaksEnglishFalse: datosClinica.doctorSpeaksEnglishFalse,
+            doctorSpeaksChineseTrue: datosClinica.doctorSpeaksChineseTrue,
+            doctorSpeaksChineseFalse: datosClinica.doctorSpeaksChineseFalse,
+            doctorSpeaksKoreanTrue: datosClinica.doctorSpeaksKoreanTrue,
+            doctorSpeaksKoreanFalse: datosClinica.doctorSpeaksKoreanFalse,
+            doctorSpeaksSpanishTrue: datosClinica.doctorSpeaksSpanishTrue,
+            doctorSpeaksSpanishFalse: datosClinica.doctorSpeaksSpanishFalse,
+            doctorSpeaksOtherTrue: datosClinica.doctorSpeaksOtherTrue,
+            doctorSpeaksOtherFalse: datosClinica.doctorSpeaksOtherFalse,
+            staffSpeaksEnglishTrue: datosClinica.staffSpeaksEnglishTrue,
+            staffSpeaksEnglishFalse: datosClinica.staffSpeaksEnglishFalse,
+            staffSpeaksChineseTrue: datosClinica.staffSpeaksChineseTrue,
+            staffSpeaksChineseFalse: datosClinica.staffSpeaksChineseFalse,
+            staffSpeaksKoreanTrue: datosClinica.staffSpeaksKoreanTrue,
+            staffSpeaksKoreanFalse: datosClinica.staffSpeaksKoreanFalse,
+            staffSpeaksSpanishTrue: datosClinica.staffSpeaksSpanishTrue,
+            staffSpeaksSpanishFalse: datosClinica.staffSpeaksSpanishFalse,
+            staffSpeaksOtherTrue: datosClinica.staffSpeaksOtherTrue,
+            staffSpeaksOtherFalse: datosClinica.staffSpeaksOtherFalse,
+            friendlyL1: datosClinica.FriendlyL1,
+            friendlyL2: datosClinica.FriendlyL2,
+            friendlyL3: datosClinica.FriendlyL3,
+            foreignLanguageExplanationTrue: datosClinica.ForeignLanguageTreatmentExplanationTrue,
+            foreignLanguageExplanationFalse: datosClinica.ForeignLanguageTreatmentExplanationFalse
+        };
+
+        operadorMSQL.insertClinic(params, req, res);
     },
 
     insertClinicMDB : function(req, res) {

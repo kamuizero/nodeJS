@@ -5,13 +5,15 @@ const express = require('express');
 const router = express.Router();
 const ClinicsController = require('../public/javascripts/clinics/clinicscontroller');
 
-router.get('/', function(req, res, next) {(
-    res.send(ClinicsController.getAllClinics()));
+router.get('/', function(req, res, next) {
+    //res.send(ClinicsController.getAllClinics()));
+    ClinicsController.getAllClinicsMSQL(req, res);
 });
 
 router.post('/', function(req, res, next) {
     //res.send(ClinicsController.insertClinic(req));
-    res.send(ClinicsController.insertClinicMDB(req));
+    //res.send(ClinicsController.insertClinicMDB(req));
+    ClinicsController.insertClinicMSQL(req, res);
 });
 
 router.get('/:id',function(req, res, next){

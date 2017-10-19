@@ -581,7 +581,7 @@ function agregarClinica() {
         let resInsert = resultado.resultado;
         console.log('Finalizo la llamada a la funcion de insert - ' + resInsert);
 
-        if (resInsert == '1'){
+        if ((resInsert == '1') || (resInsert != '-1')){
             alert('Clinica insertada correctamente');
         }
         else {

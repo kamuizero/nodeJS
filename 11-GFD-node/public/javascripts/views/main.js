@@ -42,8 +42,10 @@ function initMap() {
     xhr.setRequestHeader('Content-Type','application/json');
     xhr.send();
     var prueba = JSON.parse(xhr.responseText);
+    console.log(prueba);
     console.log('Llamar a crear arreglo');
-    cargarClinicasAlMapa(crearArreglo(prueba));
+    //cargarClinicasAlMapa(crearArreglo(prueba));
+    cargarClinicasAlMapa(crearArregloMySQL(prueba));
 }
 
 /*
@@ -64,9 +66,6 @@ function crearArreglo(re) {
         var valor = re.results.bindings[i].valor.value;
         var id = re.results.bindings[i].clinica.value.split("#")[1]; //Unicamente el ID
 
-        if (id == '495')
-            console.log('EL ID ES: ' + id);
-
         if (!clinica)
             clinica = { id: id, type: "health"};
         else if (id != clinica.id) { //Nueva clinica
@@ -76,11 +75,26 @@ function crearArreglo(re) {
         }
 
         clinica[atributo] = valor; //Agregamos el valor a la clinica
-        if (id == '495' || id == '494') {
-            console.log(id + 'El atributo es: ' + atributo);
-            console.log(id + 'El valor es: ' + valor);
-        }
+    }
 
+    return clinicas;
+}
+
+function crearArregloMySQL(re) {
+    console.log('crear arreglo');
+    let clinicas = [];
+    let lat, long;
+
+    //Aqui generamos los objetos particulares con cada uno de sus atributos
+
+    let clinica;
+
+    for (let i = 0; i < re.length; i++) {//Ciclar por el arreglo
+        clinica = re[i];
+        clinica.id = re[i].idclinic.value;
+        clinica.type = 'health';
+        clinica.position = new google.maps.LatLng(clinica.lat, clinica.long);
+        clinicas.push(clinica);
     }
 
     return clinicas;
