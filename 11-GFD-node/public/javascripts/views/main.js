@@ -42,17 +42,16 @@ function initMap() {
     xhr.setRequestHeader('Content-Type','application/json');
     xhr.send();
     var prueba = JSON.parse(xhr.responseText);
-    console.log(prueba);
-    console.log('Llamar a crear arreglo');
-    //cargarClinicasAlMapa(crearArreglo(prueba));
-    cargarClinicasAlMapa(crearArregloMySQL(prueba));
+
+    cargarClinicasAlMapa(crearArreglo(prueba)); //Usando Virtuoso
+    //cargarClinicasAlMapa(crearArregloMySQL(prueba)); //Usando MySQL
 }
 
 /*
  * Crear arreglo de clinicas, 're' es el objeto  JSON con la informacion
  */
 function crearArreglo(re) {
-    console.log('crear arreglo');
+    //console.log('crear arreglo');
     var clinicas = [];
     var lat, long;
 
@@ -81,7 +80,7 @@ function crearArreglo(re) {
 }
 
 function crearArregloMySQL(re) {
-    console.log('crear arreglo');
+    //console.log('crear arreglo');
     let clinicas = [];
     let lat, long;
 

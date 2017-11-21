@@ -32,8 +32,6 @@ function buscarClinicas(response) {
             console.log('Error: ' + err);
             throw err;
         }
-        console.log('Resultado: ');
-        console.log(rows);
         response.send(rows);
     });
 }

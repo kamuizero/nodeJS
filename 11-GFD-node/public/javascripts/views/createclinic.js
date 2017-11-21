@@ -376,6 +376,9 @@ function agregarClinica() {
     //Agregar
 
     if (ok) {
+
+        $("#Loading").show();
+
         console.log('Agregar la clinica');
 
         let clinica = {};
@@ -588,6 +591,7 @@ function agregarClinica() {
             alert('Error al agregar clinica');
         }
 
+        $("#Loading").hide();
         location.assign('/');
     }
 }

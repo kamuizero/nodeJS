@@ -6,8 +6,8 @@ const router = express.Router();
 const ClinicsController = require('../public/javascripts/clinics/clinicscontroller');
 
 router.get('/', function(req, res, next) {
-    //res.send(ClinicsController.getAllClinics()));
-    ClinicsController.getAllClinicsMSQL(req, res);
+    res.send(ClinicsController.getAllClinics());
+    //ClinicsController.getAllClinicsMSQL(req, res);
 });
 
 router.post('/', function(req, res, next) {
