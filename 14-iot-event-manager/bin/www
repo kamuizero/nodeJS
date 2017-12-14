@@ -5,14 +5,14 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('05-express-first-app:server');
+var debug = require('debug')('14-iot-event-manager');
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '8001'); //El puerto se cambia a 8000 segun lo que uno quiera
+var port = normalizePort(process.env.PORT || '3000'); //El puerto se cambia a 8000 segun lo que uno quiera
 app.set('port', port);
 
 /**
@@ -20,6 +20,12 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * Create Websocket server
+ */
+
+const wss = require('../routes/sockets').listen(server); //Manejador de los sockets
 
 /**
  * Listen on provided port, on all network interfaces.

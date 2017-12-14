@@ -1,13 +1,13 @@
-<script src="/javascripts/views/main.js" defer="defer"></script>
+<script src="/javascripts/main.js" defer="defer"></script>
 
 <div class="main">
     <h1 class="center" style="text-align: center">{{title}}</h1>
     <br>
-
-    En esta pagina se deben visualizar las ordenes en tiempo real con Sockets, quien maneja esto es el servidor con la
-    clase wsmanager.
-
+    <button type="button" id="botonHeartBeat" onclick="pruebaBoton()">PRUEBA</button>
     <br>
     <br>
-    El manejo desde los terminales hasta el servidor se hacen tambien en wsmanager.
+    El manejo desde los terminales hasta el servidor se hacen tambien en sockets.
+    <br>
+    <br>
+    <ul id="messages"></ul>
 </div>

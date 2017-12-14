@@ -1,10 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const OrderController = require('../public/javascripts/ordercontroller');
+const manejadorS = require('./sockets');
 
 router.get('/', function(req, res, next){
     console.log('GET /eventos - Buscar todos los eventos');
     OrderController.leerEventos(res);
+});
+
+router.get('/prueba', function(req, res, next){
+    console.log('GET /prueba - PRUEBA para ejecutar acciones en la parte del SOCKET manager');
+    //manejadorS.checkearHeartBeat(res);
+    res.send(manejadorS.cantidadConexiones());
 });
 
 router.post('/', function(req, res, next) { //Insertar orden nueva
@@ -13,7 +20,7 @@ router.post('/', function(req, res, next) { //Insertar orden nueva
         pos = req.query.pos,
         log = req.query.log;
 
-    console.log('- ARDUINO - Valor de data es: ' + data + ' y el valor de log es: ' + log + " y el valor de pos es: " + pos);
+    console.log('-A- POST : Insertar orden nueva ' + data + '  ' + log + " " + pos);
 
     OrderController.procesarMensaje(
         {data: data,

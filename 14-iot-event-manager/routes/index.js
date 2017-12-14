@@ -3,7 +3,7 @@ var router = express.Router();
 var assert = require('assert'); //Se usa para hacer pruebas, validar cosas
 var arduinoC = require('../public/javascripts/ordercontroller');
 
-const PAGE_TITLE = "ORDER MANAGEMENT";
+const PAGE_TITLE = "Accelerometer test";
 
 var url = 'mongodb://localhost:27017/test'; //test es la base  de datos que utilizaremos
 
