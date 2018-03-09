@@ -2,7 +2,8 @@ const posicionInicial = {lat: 35.1547072, lng: 136.9613086}; //Aichi
 var allMarkersData =[];
 var activeInfoWindow;
 var activeMarker;
-var map;var icons = {
+var map;
+var icons = {
     health: {
         icon: '/images/gfd/icons/health_icon.png'
     },
@@ -95,6 +96,13 @@ function crearArregloMySQL(re) {
         clinica.id = re[i].idclinic;
         clinica.type = 'health';
         clinica.position = new google.maps.LatLng(clinica.lat, clinica.long);
+        clinica.FriendlyL1 = clinica.friendlyL1;
+        clinica.FriendlyL2 = clinica.friendlyL2;
+        clinica.FriendlyL3 = clinica.friendlyL3;
+
+        clinica.ForeignLanguageTreatmentExplanationTrue = clinica.foreignLanguageExplanationTrue;
+        clinica.ForeignLanguageTreatmentExplanationFalse = clinica.foreignLanguageExplanationFalse;
+
         clinicas.push(clinica);
     }
 
@@ -104,7 +112,7 @@ function crearArregloMySQL(re) {
 }
 
 function cargarClinicasAlMapa(clinicas) {
-    //Finalizo carga del RDF, mostrarlas como marcadores en el mapa
+    //Finalizo carga de los datos, mostrarlas como marcadores en el mapa
     for (var k = 0, clinicaP; clinicaP = clinicas[k]; k++) {
         addMarkerInfoWindow(clinicaP,map);
     }
@@ -117,7 +125,7 @@ function cargarClinicasAlMapa(clinicas) {
 
 function addMarkerInfoWindow(feature, mapa) {
 
-    var image = {
+    let image = {
         url: icons[feature.type].icon,
         scaledSize : new google.maps.Size(35, 49)
     };

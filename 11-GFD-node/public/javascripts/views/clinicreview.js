@@ -5,6 +5,18 @@ var ratingUsuarioInglesDoc, ratingUsuarioChinoDoc, ratingUsuarioEspanolDoc, rati
     ratingUsuarioInglesStaff, ratingUsuarioChinoStaff, ratingUsuarioEspanolStaff, ratingUsuarioCoreanoStaff, ratingUsuarioOtroStaff,
     ratingUsuarioFL, ratingUsuarioIndicaciones;
 
+var icons = {
+    health: {
+        icon: '/images/gfd/icons/health_icon.png'
+    },
+    clinic: {
+        icon: '/images/gfd/icons/clinic_icon.png'
+    },
+    hospital: {
+        icon: '/images/gfd/icons/hospital_icon.png'
+    }
+};
+
 $(document).ready(function () {
     hideButton("botonReview");
     hideButton("botonClear");
@@ -14,13 +26,13 @@ $(document).ready(function () {
 function obtenerClinica() {
 
     //TODO: Utilizar los parametros del router de express
-    var feature = JSON.parse(localStorage.getItem('clinica'));
+    let feature = JSON.parse(localStorage.getItem('clinica'));
 
     if (feature != null) {
 
-        var langLevel;
-        var totalDoc;
-        var totalStaff;
+        let langLevel;
+        let totalDoc;
+        let totalStaff;
 
         initMap(feature); //Mostramos el mapa
 
@@ -130,6 +142,8 @@ function initMap(feature) {
 
     var posicionInicial = feature.position;
 
+    console.log('INITMAP!');
+
     mapa = new google.maps.Map(document.getElementById('mapaClinica'), {
         zoom: 17,
         center: posicionInicial,
@@ -143,6 +157,17 @@ function initMap(feature) {
     });
 
     //Cargar el marcador
+
+    console.log(feature);
+
+    if (!feature.icon) {
+        console.log('No hay icono');
+        let image = {
+            url: icons[feature.type].icon,
+            scaledSize : new google.maps.Size(35, 49)
+        };
+        feature.icon = image;
+    }
 
     marker = new google.maps.Marker({
         id: feature.id,
@@ -192,6 +217,9 @@ function initMap(feature) {
         FriendlyL1 : feature.FriendlyL1, //1 Estrella
         FriendlyL2 : feature.FriendlyL2, //2 Estrellas
         FriendlyL3 : feature.FriendlyL3 , //3 Estrellas
+        // FriendlyL1 : feature.FriendlyL1, //1 Estrella
+        // FriendlyL2 : feature.FriendlyL2, //2 Estrellas
+        // FriendlyL3 : feature.FriendlyL3 , //3 Estrellas
 
         ForeignLanguageTreatmentExplanationTrue: feature.ForeignLanguageTreatmentExplanationTrue, //Ofrecen posologia o indicaciones en idioma extranjero - Votos positivos
         ForeignLanguageTreatmentExplanationFalse: feature.ForeignLanguageTreatmentExplanationFalse
@@ -656,7 +684,8 @@ function rateClinic() {
         console.log('Clinica actualizada: ' + xhr.responseText);
         resultado = JSON.parse(xhr.responseText);
 
-        localStorage.setItem('clinica',JSON.stringify(armarClinica(marker.id, resultado)));
+        localStorage.setItem('clinica',JSON.stringify(armarClinicaMSQL(marker.id, resultado)));
+        // localStorage.setItem('clinica',JSON.stringify(armarClinica(marker.id, resultado)));
     }
     else {
         alert('レビューに問題が発生しました。 - There was a problem reviewing the clinic.');
@@ -672,11 +701,11 @@ function armarClinica(clinicId, resData) {
 
     //Aqui generamos los objetos particulares con cada uno de sus atributos
 
-    var clinica = { id: clinicId, type: "health"};
+    let clinica = { id: clinicId, type: "health"};
 
     for (i = 0; i < resData.results.bindings.length; i++) {
-        var atributo = resData.results.bindings[i].atributo.value.split("#")[1];
-        var valor = resData.results.bindings[i].valor.value;
+        let atributo = resData.results.bindings[i].atributo.value.split("#")[1];
+        let valor = resData.results.bindings[i].valor.value;
         clinica[atributo] = valor; //Agregamos el valor a la clinica
     }
 
@@ -688,10 +717,31 @@ function armarClinica(clinicId, resData) {
     return clinica;
 }
 
+function armarClinicaMSQL(clinicId, resData) {
+    console.log('Armar clinicaMSQL');
+
+    //Aqui generamos los objetos particulares con cada uno de sus atributos
+
+    console.log(resData);
+
+    let clinica = {...resData[0], type: "health"};
+
+    clinica['position'] = new google.maps.LatLng(clinica.lat, clinica.long);
+    clinica['title'] = clinica.name;
+    clinica['description'] = clinica.address;
+
+    clinica.FriendlyL1 = clinica.friendlyL1;
+    clinica.FriendlyL2 = clinica.friendlyL2;
+    clinica.FriendlyL3 = clinica.friendlyL3;
+
+    console.log(clinica);
+    return clinica;
+}
+
 function clickThumb(element) {
 
-    var nombre = element.getAttribute('name'); //Obtenemos el idioma a donde le dio click
-    var voto = element.getAttribute('value');
+    let nombre = element.getAttribute('name'); //Obtenemos el idioma a donde le dio click
+    let voto = element.getAttribute('value');
 
     switch (nombre) {
         case 'votoInglesDoc' :

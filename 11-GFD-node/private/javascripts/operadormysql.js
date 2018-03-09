@@ -36,6 +36,19 @@ function buscarClinicas(response) {
     });
 }
 
+function buscarClinicaId(id, response) {
+    let query = "SELECT * from sample.clinic WHERE idclinic = ?";
+
+    con.query(query, [id], function(err, rows) {
+        if (err) {
+            console.log('Error: ' + err);
+            throw err;
+        }
+        console.log(rows);
+        response.send(rows);
+    });
+}
+
 function insertarClinica(clc, request, response) {
     let query = "INSERT INTO sample.clinic SET ?";
     /*let params = {
@@ -92,7 +105,6 @@ function actualizarClinica(clc, request, response) {
 
     console.log(query);
 
-
     con.query(query, clc, function (error, rows, fields) {
         if (error) {
             console.log('Error: ' + error);
@@ -102,7 +114,7 @@ function actualizarClinica(clc, request, response) {
 
         console.log('Resultado: ');
         console.log(rows);
-        response.send(JSON.parse('{"resultado" : ' + rows.insertId + "}"));
+        response.send(JSON.parse('{"resultadosExitosos" : ' + rows.affectedRows + "}"));
     });
 }
 
@@ -111,6 +123,11 @@ module.exports = {
     buscarTodasClinicas: function (res) {
         console.log("Leer clinicas");
         buscarClinicas(res);
+    },
+
+    buscarClinica: function (clc, res) {
+        console.log("Buscar clinica");
+        buscarClinicaId(clc, res);
     },
 
     insertClinic : function(clc, request, response) {

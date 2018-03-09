@@ -18,7 +18,8 @@ router.post('/', function(req, res, next) {
 
 router.get('/:id',function(req, res, next){
     //Obtener los datos de una sola clinica
-    res.send(ClinicsController.getClinic(req.params.id));
+    //res.send(ClinicsController.getClinic(req.params.id));
+    ClinicsController.getClinicMSQL(req, res);
 });
 
 router.put('/:id',function(req, res, next){

@@ -167,6 +167,13 @@ module.exports = {
         operadorMSQL.buscarTodasClinicas(res);
     },
 
+    getClinicMSQL : function (req, res) {
+        let id = req.params.id;
+        console.log('Busscar clinica: ' + id);
+
+        operadorMSQL.buscarClinica(id, res);
+    },
+
     getClinic : function(clinicId) {
         console.log('Buscar clinica: ' + clinicId);
 
