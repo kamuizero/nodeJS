@@ -43,8 +43,9 @@ function initMap() {
     xhr.send();
     var prueba = JSON.parse(xhr.responseText);
 
-    cargarClinicasAlMapa(crearArreglo(prueba)); //Usando Virtuoso
-    //cargarClinicasAlMapa(crearArregloMySQL(prueba)); //Usando MySQL
+    console.log(prueba);
+    //cargarClinicasAlMapa(crearArreglo(prueba)); //Usando Virtuoso
+    cargarClinicasAlMapa(crearArregloMySQL(prueba)); //Usando MySQL
 }
 
 /*
@@ -89,12 +90,15 @@ function crearArregloMySQL(re) {
     let clinica;
 
     for (let i = 0; i < re.length; i++) {//Ciclar por el arreglo
-        clinica = re[i];
-        clinica.id = re[i].idclinic.value;
+        //clinica = re[i];
+        clinica = {...re[i]};
+        clinica.id = re[i].idclinic;
         clinica.type = 'health';
         clinica.position = new google.maps.LatLng(clinica.lat, clinica.long);
         clinicas.push(clinica);
     }
+
+    console.log(clinicas);
 
     return clinicas;
 }

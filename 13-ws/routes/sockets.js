@@ -53,6 +53,7 @@ function procesarMensaje(socket, message) {
         case 'inicio' :
             console.log('0 - Mensaje de inicio de conexion, agregarlo a la pila de conexiones');
             console.log('Contenido del mensaje: ' + msJSON.mensaje);
+
             let cliente = {tipoCliente : msJSON.cliente,
                 ip : socket._socket.remoteAddress,
                 socket : socket};
@@ -64,12 +65,12 @@ function procesarMensaje(socket, message) {
                 conexiones.push(cliente);
                 console.log('Cantidad de clientes no-ESP8266 conectados es: ' + conexiones.length + ' - y su ubicacion es: ' + socket._socket.remoteAddress);
             }
-
             break;
         case 'mensaje' :
             console.log('1 - Mensaje de texto');
             console.log('Contenido del mensaje: ' + msJSON.mensaje);
-            broadcastTodosOtros(JSON.stringify(message),socket);
+            // broadcastTodosOtros(JSON.stringify(message),socket);
+            broadcastTodosOtros(msJSON.mensaje,socket);
             break;
         case 'accel' :
             console.log('2 - Mensaje de accelerometro');
@@ -78,6 +79,11 @@ function procesarMensaje(socket, message) {
             console.log('Z: ' + msJSON.mensaje.Z);
             //enviar a processing
             enviarMensajeProcessing(JSON.stringify(msJSON.mensaje));
+            break;
+        case 'orden' :
+            console.log('3 - Oden del sistema');
+            console.log('Posicion: ' + msJSON.mensaje.posicion);
+            //Aqui guardarlo en BD o mandarlo por WS a las interfaces de visualizacion
             break;
         default:
             break;

@@ -84,6 +84,28 @@ function insertarClinica(clc, request, response) {
     });
 }
 
+function actualizarClinica(clc, request, response) {
+
+    /* Preparamos el query de actualizacion */
+    let atributo = 'doctorSpeaksEnglishTrue';
+    let query = 'UPDATE sample.clinic SET ' + atributo + ' =  ' + atributo + ' + 1 WHERE idclinic = ' + clc.idclinic;
+
+    console.log(query);
+
+
+    con.query(query, clc, function (error, rows, fields) {
+        if (error) {
+            console.log('Error: ' + error);
+            response.send(JSON.parse('{"resultado": -1}'));
+            throw error;
+        }
+
+        console.log('Resultado: ');
+        console.log(rows);
+        response.send(JSON.parse('{"resultado" : ' + rows.insertId + "}"));
+    });
+}
+
 module.exports = {
 
     buscarTodasClinicas: function (res) {
@@ -101,6 +123,11 @@ module.exports = {
         console.log("A buscar el ID...");
         let result = buscarMaxID();
         console.log('Finalizo el buscar ID ' + result + ' . Ese es el resultado.');
+    },
+
+    updateClinic : function(clc, request, response) {
+        console.log("Actualizar clinica");
+        actualizarClinica(clc, request, response);
     }
 
 };

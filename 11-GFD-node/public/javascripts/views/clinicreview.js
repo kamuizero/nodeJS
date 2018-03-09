@@ -625,15 +625,17 @@ function rateClinic() {
     }
 
     //Enviar los datos a procesar - La respuesta se procesa en otro metodo
-    var parametros = {
+    let parametros = {
         datos : datos
     };
 
-    /*console.log(datos);
+    console.log(marker);
+    console.log(datos);
     console.log(JSON.stringify(parametros));
-    console.log('ID de la clinica a actualizar es: ' + marker.id);*/
 
-    var xhr = new XMLHttpRequest();
+    console.log('ID de la clinica a actualizar es: ' + marker.id);
+
+    let xhr = new XMLHttpRequest();
     xhr.open('PUT','http://localhost:8001/clinics/' + marker.id, false);
     xhr.setRequestHeader('Content-Type','application/json');
     xhr.send(JSON.stringify(parametros));

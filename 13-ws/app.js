@@ -8,7 +8,6 @@ var hbs = require('express-handlebars');
 
 var index = require('./routes/index');
 
-
 var app = express();
 
 // Configuracion del Templating Engine - Handlebars

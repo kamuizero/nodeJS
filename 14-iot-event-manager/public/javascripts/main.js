@@ -50,6 +50,19 @@ function pruebaBoton() {
     // xmlHttp.onreadystatechange = respuestaServer(xmlHttp);
     // xmlHttp.send();
 
+    //CODIGO DE PRUEBA NODE!!!
+
+    let rex = /[0-8]*\s(\*|\+)\s[0-8]*/;
+
+    let texto = "2 + 2";
+    //Hacer una expresion regular
+    let rEx = /[0-8]*\s(\*|\+)\s[0-8]*/g;
+    //let elementos = texto.match(/[0-8]*\s(\*|\+)\s[0-8]*/g);
+    let elementos = texto.match(rEx);
+    console.log("ALO " + elementos.toString().split(' '));
+
+    console.log(( (200).toString(9) + (100).toString(9)).toString(9));
+
     var xhr = new XMLHttpRequest();
     xhr.open('GET','http://localhost:3000/orders/prueba', true);
     xhr.onload = function (e) {

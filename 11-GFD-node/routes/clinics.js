@@ -6,14 +6,14 @@ const router = express.Router();
 const ClinicsController = require('../public/javascripts/clinics/clinicscontroller');
 
 router.get('/', function(req, res, next) {
-    res.send(ClinicsController.getAllClinics());
-    //ClinicsController.getAllClinicsMSQL(req, res);
+    //res.send(ClinicsController.getAllClinics());
+    ClinicsController.getAllClinicsMSQL(req, res); //MySQL
 });
 
 router.post('/', function(req, res, next) {
     //res.send(ClinicsController.insertClinic(req));
     //res.send(ClinicsController.insertClinicMDB(req));
-    ClinicsController.insertClinicMSQL(req, res);
+    ClinicsController.insertClinicMSQL(req, res); //MySQL
 });
 
 router.get('/:id',function(req, res, next){
@@ -23,7 +23,8 @@ router.get('/:id',function(req, res, next){
 
 router.put('/:id',function(req, res, next){
     //Actualizar clinica
-    res.send(ClinicsController.updateClinic(req));
+    //res.send(ClinicsController.updateClinic(req));
+    ClinicsController.updateClinicMSQL(req, res); //MySQL
 });
 
 module.exports = router; //Necesario para habilitar las rutas

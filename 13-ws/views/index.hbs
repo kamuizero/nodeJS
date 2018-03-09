@@ -1,14 +1,22 @@
 <script>
 
     $(function () {
-        const socket = new WebSocket('ws://localhost:3000');
 
-        socket.addEventListener('open', function (event){
+        // const socket = new WebSocket('ws://localhost:3000');
+        const socket = new WebSocket('ws://192.168.1.156:3000');
+
+        socket.addEventListener('open', function (event){ //Evento que se ejecuta al abrir el Socket - Crear la conexion
             enviarMensaje('inicio','Inicio de conexion');
         });
 
         socket.addEventListener('message', function(event){
            console.log('Mensaje recibido del servidor: ' + event.data);
+
+           /*if (JSON.parse(event)) {
+               console.log("JSON ES: ", JSON.parse(event));
+           }*/
+
+           $('#messages').append($('<li>').text(event.data));
         });
 
         $('form').submit(function(){

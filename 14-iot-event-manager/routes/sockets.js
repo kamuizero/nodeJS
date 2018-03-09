@@ -191,28 +191,15 @@ module.exports.listen = function(server) {
                 console.log(moment().format('MMMM Do YYYY, h:mm:ss a') + ' - Enviando Mensaje heartbeat a dispositivo');
 
                 if (conn.socket.readyState === WebSocket.CLOSED) {
-                    console.log('CONEXION MUERTA');
+                    console.log('Socket ESP8266 Cerrado, eliminando...');
                     let index = conexionesESP8266.indexOf(conn);
                     conexionesESP8266.splice(index, 1);
                     console.log('--- Eliminado un ESP8266 ---');
                 } else {
                     conn.socket.send('heartbeat');
                 }
-
             });
         }
-
-        /*conexionesESP8266.forEach( function each (ws) {
-            console.log('Checkear conexion ESP8266 muerta o viva - ' + ws.tipoCliente + ' - IP - ' + ws.ip);
-
-            if (ws.socket.isAlive === false) {
-                console.log('CONEXION MUERTA');
-                return ws.terminate();
-            }
-
-            ws.isAlive = false;
-            ws.socket.ping('', false, true);
-        });*/
 
         conexiones.forEach( function each (ws) {
             console.log('Checkear conexion muerta o viva - ' + ws.tipoCliente + ' - IP - ' + ws.ip);

@@ -291,6 +291,18 @@ module.exports = {
         return JSON.parse('{"resultado" : ' + resultadoInsert + "}");
     },
 
+    updateClinicMSQL : function (req, res) {
+        console.log('Update Clinic MySQL');
+        let datosClinica = req.body.datos;
+        let idclinica = req.params.id;
+        console.log(datosClinica);
+        console.log('Id de la clinica es: ', idclinica);
+        datosClinica.idclinic = idclinica;
+
+        operadorMSQL.updateClinic(datosClinica, req, res);
+    }
+    ,
+
     updateClinic : function (req, res) {
         let grafo = DEFAULT_GRAPH;
         let cambios = req.body.datos;
