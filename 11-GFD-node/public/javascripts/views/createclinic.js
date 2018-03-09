@@ -585,10 +585,10 @@ function agregarClinica() {
         console.log('Finalizo la llamada a la funcion de insert - ' + resInsert);
 
         if ((resInsert == '1') || (resInsert != '-1')){
-            alert('Clinica insertada correctamente');
+            alert('Clinic was successfully created');
         }
         else {
-            alert('Error al agregar clinica');
+            alert('Error creating the clinic');
         }
 
         $("#Loading").hide();

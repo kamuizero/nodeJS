@@ -175,11 +175,11 @@ function initMap(feature) {
     }
 
     if (!feature.ForeignLanguageTreatmentExplanationTrue) {
-        feature.ForeignLanguageTreatmentExplanationTrue = feature.foreignLanguageExplanationTrue;
+        feature.ForeignLanguageTreatmentExplanationTrue = (feature.foreignLanguageExplanationTrue !== undefined)?feature.foreignLanguageExplanationTrue: 0;
     }
 
     if (!feature.ForeignLanguageTreatmentExplanationFalse) {
-        feature.ForeignLanguageTreatmentExplanationFalse = feature.foreignLanguageExplanationFalse;
+        feature.ForeignLanguageTreatmentExplanationFalse = (feature.foreignLanguageExplanationFalse !== undefined)?feature.foreignLanguageExplanationFalse: 0;
     }
 
     marker = new google.maps.Marker({
