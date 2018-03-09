@@ -101,11 +101,62 @@ function actualizarClinica(clc, request, response) {
 
     /* Preparamos el query de actualizacion */
     let atributo = 'doctorSpeaksEnglishTrue';
-    let query = 'UPDATE sample.clinic SET ' + atributo + ' =  ' + atributo + ' + 1 WHERE idclinic = ' + clc.idclinic;
+    // let query = 'UPDATE sample.clinic SET ' + atributo + ' =  ' + atributo + ' + 1 WHERE idclinic = ' + clc.idclinic;
+    let query = 'UPDATE sample.clinic SET ? WHERE ? ' ;
 
     console.log(query);
+    console.log(clc);
 
-    con.query(query, clc, function (error, rows, fields) {
+    let datosQuery = clc.map( (val) => {
+                        console.log(Object.values(val));
+                        let nombre = Object.values(val)[0];
+                        let valor = Object.values(val)[1];
+                        let ret = {};
+                        ret[nombre] = valor;
+                        return ret;
+                        });
+
+    console.log(datosQuery);
+    console.log('-----');
+
+    let arrDos = {};
+    let tempKey, tempValue;
+
+    for (let i = 0; i < datosQuery.length; i++) {
+        tempKey = Object.keys(datosQuery[i])[0];
+        tempValue = Object.values(datosQuery[i])[0];
+
+        switch (tempKey) {
+
+            case 'FriendlyL1' :
+                tempKey = 'friendlyL1';
+                break;
+            case 'FriendlyL2' :
+                tempKey = 'friendlyL2';
+                break;
+            case 'FriendlyL3' :
+                tempKey = 'friendlyL3';
+                break;
+            case 'ForeignLanguageTreatmentExplanationFalse' :
+                tempKey = 'foreignLanguageExplanationFalse';
+                break;
+            case 'ForeignLanguageTreatmentExplanationTrue' :
+                tempKey = 'foreignLanguageExplanationTrue';
+                break;
+            default : break;
+        }
+        arrDos[tempKey] = tempValue;
+    }
+
+    console.log(arrDos);
+
+    datosQuery = arrDos;
+
+    //let datosQuery = { doctorSpeaksEnglishTrue : 99};
+
+    //console.log([datosQuery, {idclinic : clc.idclinic}]);
+
+    con.query(query, [datosQuery, {idclinic : clc.idclinic}], function (error, rows, fields) {
         if (error) {
             console.log('Error: ' + error);
             response.send(JSON.parse('{"resultado": -1}'));

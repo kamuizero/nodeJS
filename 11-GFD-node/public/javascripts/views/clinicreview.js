@@ -169,6 +169,19 @@ function initMap(feature) {
         feature.icon = image;
     }
 
+    if (!feature.id) {
+        console.log('Problema con el ID');
+        feature.id = feature.idclinic;
+    }
+
+    if (!feature.ForeignLanguageTreatmentExplanationTrue) {
+        feature.ForeignLanguageTreatmentExplanationTrue = feature.foreignLanguageExplanationTrue;
+    }
+
+    if (!feature.ForeignLanguageTreatmentExplanationFalse) {
+        feature.ForeignLanguageTreatmentExplanationFalse = feature.foreignLanguageExplanationFalse;
+    }
+
     marker = new google.maps.Marker({
         id: feature.id,
         description:feature.description,
